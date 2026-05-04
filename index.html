@@ -1,0 +1,1207 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<meta name="theme-color" content="#0a7ea4">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="삿포로 여행">
+<link rel="manifest" href="manifest.json">
+<title>삿포로 가족여행</title>
+<link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@400;700;800&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{height:100%;overflow:hidden;font-family:'Nanum Gothic',sans-serif;background:#f0f4f8}
+
+/* ── 앱 기본 레이아웃 ── */
+#app{display:flex;flex-direction:column;height:100vh;height:100dvh}
+
+/* ── 상단 헤더 ── */
+.app-header{
+  background:linear-gradient(135deg,#0a7ea4 0%,#0d9488 100%);
+  color:white;padding:env(safe-area-inset-top,0) 0 0;
+  flex-shrink:0;z-index:100;
+  box-shadow:0 2px 12px rgba(10,126,164,0.3)
+}
+.header-inner{padding:14px 16px 12px;display:flex;align-items:center;justify-content:space-between}
+.header-title{font-size:18px;font-weight:800;letter-spacing:-0.3px}
+.header-sub{font-size:11px;opacity:0.85;margin-top:2px}
+.header-right{text-align:right}
+.weather-chip{
+  background:rgba(255,255,255,0.2);border-radius:20px;
+  padding:4px 10px;font-size:11px;font-weight:700;
+  display:inline-flex;align-items:center;gap:4px
+}
+
+/* ── 하단 탭바 ── */
+.tab-bar{
+  display:flex;background:white;
+  border-top:1px solid #e2e8f0;
+  padding:0 0 env(safe-area-inset-bottom,0);
+  flex-shrink:0;z-index:100
+}
+.tab-btn{
+  flex:1;display:flex;flex-direction:column;align-items:center;
+  padding:8px 4px 6px;border:none;background:transparent;cursor:pointer;
+  font-family:'Nanum Gothic',sans-serif;
+  color:#94a3b8;font-size:10px;font-weight:700;gap:3px;
+  transition:color 0.2s
+}
+.tab-btn.active{color:#0a7ea4}
+.tab-btn .tab-icon{font-size:22px;line-height:1}
+.tab-btn .tab-label{font-size:10px}
+
+/* ── 메인 콘텐츠 스크롤 영역 ── */
+.content{flex:1;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch}
+.screen{display:none;animation:fadeIn 0.2s ease}
+.screen.active{display:block}
+@keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+
+/* ── 홈 화면 ── */
+.home-banner{
+  background:linear-gradient(160deg,#0a7ea4,#0d9488);
+  color:white;padding:24px 16px 20px;
+  margin-bottom:0
+}
+.home-banner h2{font-size:22px;font-weight:800;margin-bottom:4px}
+.home-banner p{font-size:13px;opacity:0.85}
+.home-chips{display:flex;gap:6px;flex-wrap:wrap;margin-top:12px}
+.home-chip{
+  background:rgba(255,255,255,0.2);border-radius:100px;
+  padding:4px 10px;font-size:11px;font-weight:700
+}
+
+.section-label{
+  font-size:11px;font-weight:800;letter-spacing:1.5px;
+  text-transform:uppercase;color:#64748b;
+  padding:16px 16px 8px
+}
+
+/* ── 홈 Day 카드 ── */
+.day-cards{padding:0 16px 8px;display:flex;flex-direction:column;gap:10px}
+.day-card{
+  background:white;border-radius:14px;
+  box-shadow:0 1px 8px rgba(0,0,0,0.07);
+  overflow:hidden;cursor:pointer;
+  transition:transform 0.15s,box-shadow 0.15s
+}
+.day-card:active{transform:scale(0.98)}
+.day-card-header{display:flex;align-items:center;gap:12px;padding:14px}
+.day-badge{
+  width:44px;height:44px;border-radius:12px;
+  background:linear-gradient(135deg,#0a7ea4,#0d9488);
+  color:white;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;flex-shrink:0
+}
+.day-badge .dn{font-size:18px;font-weight:800;line-height:1}
+.day-badge .dd{font-size:9px;opacity:0.85;margin-top:1px}
+.day-card-info{flex:1;min-width:0}
+.day-card-title{font-size:14px;font-weight:800;color:#1e293b;margin-bottom:3px;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.day-card-sub{font-size:11px;color:#64748b;line-height:1.4}
+.day-card-arrow{color:#cbd5e1;font-size:18px;flex-shrink:0}
+.day-tags-row{display:flex;gap:5px;flex-wrap:wrap;padding:0 14px 12px}
+.dtag{
+  font-size:10px;font-weight:700;padding:3px 8px;border-radius:100px;
+  background:#f0f9ff;color:#0a7ea4;border:1px solid #bae6fd
+}
+.dtag.red{background:#fff1f2;color:#e11d48;border-color:#fecdd3}
+.dtag.green{background:#f0fdf4;color:#16a34a;border-color:#bbf7d0}
+.dtag.orange{background:#fff7ed;color:#ea580c;border-color:#fed7aa}
+
+/* ── 홈 바로가기 버튼 ── */
+.shortcut-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:0 16px 16px}
+.shortcut-btn{
+  background:white;border-radius:14px;padding:16px;
+  box-shadow:0 1px 8px rgba(0,0,0,0.07);cursor:pointer;
+  display:flex;flex-direction:column;gap:6px;
+  border:none;font-family:'Nanum Gothic',sans-serif;
+  text-align:left;transition:transform 0.15s
+}
+.shortcut-btn:active{transform:scale(0.97)}
+.shortcut-icon{font-size:26px}
+.shortcut-label{font-size:13px;font-weight:800;color:#1e293b}
+.shortcut-desc{font-size:11px;color:#64748b}
+
+/* ── 일정 상세 화면 ── */
+.day-detail-header{
+  background:linear-gradient(135deg,#0a7ea4,#0d9488);
+  color:white;padding:14px 16px;
+  display:flex;align-items:center;gap:12px
+}
+.back-btn{
+  background:rgba(255,255,255,0.2);border:none;color:white;
+  width:32px;height:32px;border-radius:50%;cursor:pointer;
+  font-size:18px;display:flex;align-items:center;justify-content:center;
+  flex-shrink:0
+}
+.detail-title{font-size:16px;font-weight:800}
+.detail-sub{font-size:11px;opacity:0.85;margin-top:2px}
+
+/* ── 타임라인 아이템 ── */
+.timeline{padding:12px 16px}
+.tl-item{
+  background:white;border-radius:12px;margin-bottom:8px;
+  box-shadow:0 1px 6px rgba(0,0,0,0.06);overflow:hidden
+}
+.tl-summary{
+  display:flex;align-items:center;gap:10px;
+  padding:12px 14px;cursor:pointer
+}
+.tl-time-badge{
+  background:#f0f9ff;border-radius:8px;padding:4px 8px;
+  font-size:10px;font-weight:800;color:#0a7ea4;
+  white-space:nowrap;flex-shrink:0;min-width:52px;text-align:center
+}
+.tl-time-badge.meal{background:#fff1f2;color:#e11d48}
+.tl-time-badge.cafe{background:#faf5ff;color:#7c3aed}
+.tl-time-badge.special{background:#fffbeb;color:#d97706}
+.tl-time-badge.golf{background:#f0fdf4;color:#16a34a}
+.tl-time-badge.move{background:#f8fafc;color:#64748b}
+.tl-time-badge.stay{background:#ecfdf5;color:#059669}
+.tl-time-badge.free{background:#fff7ed;color:#ea580c}
+
+.tl-main{flex:1;min-width:0}
+.tl-name{font-size:13px;font-weight:800;color:#1e293b;margin-bottom:2px}
+.tl-brief{font-size:11px;color:#64748b;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tl-chevron{color:#cbd5e1;font-size:14px;flex-shrink:0;
+  transition:transform 0.25s}
+.tl-item.open .tl-chevron{transform:rotate(180deg)}
+
+.tl-detail{
+  display:none;padding:0 14px 14px;
+  border-top:1px solid #f1f5f9
+}
+.tl-item.open .tl-detail{display:block}
+.tl-desc{font-size:12px;color:#475569;line-height:1.7;padding-top:10px}
+.tl-tip{
+  margin-top:8px;background:#f0f9ff;border-left:3px solid #38bdf8;
+  padding:8px 10px;border-radius:0 8px 8px 0;
+  font-size:11px;color:#0369a1;line-height:1.6
+}
+.tl-tip::before{content:'💡 '}
+.tl-warn{
+  margin-top:8px;background:#fff1f2;border-left:3px solid #f43f5e;
+  padding:8px 10px;border-radius:0 8px 8px 0;
+  font-size:11px;color:#be123c;line-height:1.6
+}
+.tl-warn::before{content:'⚠️ '}
+.tl-mapcode{
+  margin-top:8px;background:#f0fdf4;border-left:3px solid #22c55e;
+  padding:8px 10px;border-radius:0 8px 8px 0;
+  font-size:11px;color:#166534;line-height:1.6
+}
+.tl-mapcode::before{content:'📍 '}
+.info-box{
+  margin-top:8px;background:#f8fafc;border-radius:8px;
+  padding:10px 12px;font-size:11px;color:#475569;line-height:1.8
+}
+
+/* ── 자유시간 선택지 박스 ── */
+.free-box{
+  margin-top:8px;background:#fff7ed;border-radius:8px;
+  padding:10px 12px;font-size:11px;color:#7c4b00;line-height:1.9
+}
+.free-box strong{display:block;font-size:11px;font-weight:800;
+  color:#ea580c;margin-bottom:4px}
+
+/* ── 비행편 블록 ── */
+.flight-block{
+  background:linear-gradient(135deg,#0a7ea4,#0d9488);
+  color:white;border-radius:12px;margin-bottom:8px;padding:14px 16px
+}
+.flight-row{display:flex;align-items:center;gap:8px}
+.fl-city{text-align:center}
+.fl-code{font-size:22px;font-weight:800}
+.fl-time{font-size:12px;color:rgba(255,255,255,0.8);margin-top:1px}
+.fl-name{font-size:10px;color:rgba(255,255,255,0.6)}
+.fl-mid{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px}
+.fl-duration{font-size:10px;color:rgba(255,255,255,0.7)}
+.fl-bar{width:100%;height:1px;background:rgba(255,255,255,0.3);position:relative}
+.fl-bar::after{content:'✈';position:absolute;right:-2px;top:-9px;font-size:14px}
+.fl-airline{font-size:10px;color:rgba(255,255,255,0.6);margin-top:4px}
+
+/* ── 식당 화면 ── */
+.rest-list{padding:8px 16px 16px;display:flex;flex-direction:column;gap:10px}
+.rest-card{
+  background:white;border-radius:14px;
+  box-shadow:0 1px 8px rgba(0,0,0,0.07);overflow:hidden
+}
+.rest-card-header{
+  display:flex;align-items:center;gap:12px;padding:14px;cursor:pointer
+}
+.rest-icon{font-size:28px;flex-shrink:0}
+.rest-info{flex:1;min-width:0}
+.rest-name{font-size:14px;font-weight:800;color:#1e293b}
+.rest-category{font-size:11px;color:#64748b;margin-top:2px}
+.rest-badge{
+  font-size:10px;font-weight:800;padding:3px 8px;border-radius:100px;
+  flex-shrink:0
+}
+.badge-warn{background:#fff1f2;color:#e11d48}
+.badge-ok{background:#f0fdf4;color:#16a34a}
+.badge-gold{background:#fffbeb;color:#d97706}
+
+.rest-detail{
+  display:none;padding:0 14px 14px;
+  border-top:1px solid #f1f5f9
+}
+.rest-card.open .rest-detail{display:block}
+.rest-card.open .rest-chevron{transform:rotate(180deg)}
+.rest-chevron{color:#cbd5e1;font-size:14px;transition:transform 0.25s}
+.rest-desc{font-size:12px;color:#475569;line-height:1.7;padding-top:10px}
+.rest-meta{
+  margin-top:8px;background:#f8fafc;border-radius:8px;
+  padding:10px 12px;font-size:11px;color:#475569;line-height:1.8
+}
+.rest-tip2{
+  margin-top:8px;background:#f0f9ff;border-left:3px solid #38bdf8;
+  padding:8px 10px;border-radius:0 8px 8px 0;
+  font-size:11px;color:#0369a1;line-height:1.6
+}
+
+/* ── 주차/체크리스트 화면 ── */
+.info-list{padding:8px 16px 16px;display:flex;flex-direction:column;gap:10px}
+.info-card{
+  background:white;border-radius:14px;
+  box-shadow:0 1px 8px rgba(0,0,0,0.07);overflow:hidden
+}
+.info-card-header{
+  display:flex;align-items:center;gap:12px;padding:14px;cursor:pointer
+}
+.info-card-icon{font-size:26px;flex-shrink:0}
+.info-card-info{flex:1}
+.info-card-title{font-size:14px;font-weight:800;color:#1e293b}
+.info-card-sub{font-size:11px;color:#64748b;margin-top:2px}
+.info-chevron{color:#cbd5e1;font-size:14px;transition:transform 0.25s}
+.info-card.open .info-chevron{transform:rotate(180deg)}
+.info-card-detail{
+  display:none;padding:0 14px 14px;
+  border-top:1px solid #f1f5f9
+}
+.info-card.open .info-card-detail{display:block}
+
+.park-item{
+  padding:10px 0;border-bottom:1px solid #f1f5f9;font-size:12px;
+  color:#475569;line-height:1.7
+}
+.park-item:last-child{border-bottom:none}
+.park-item strong{color:#1e293b;display:block;margin-bottom:3px;font-size:12px}
+.price-tag{
+  display:inline-block;font-size:10px;font-weight:800;
+  padding:2px 7px;border-radius:4px;margin-left:4px
+}
+.price-free{background:#dcfce7;color:#166534}
+.price-paid{background:#fee2e2;color:#991b1b}
+.price-check{background:#fef9c3;color:#854d0e}
+
+.check-item{
+  display:flex;align-items:flex-start;gap:10px;
+  padding:10px 0;border-bottom:1px solid #f1f5f9;font-size:12px;
+  color:#475569;line-height:1.6
+}
+.check-item:last-child{border-bottom:none}
+.check-dot{
+  width:8px;height:8px;border-radius:50%;
+  background:#0a7ea4;flex-shrink:0;margin-top:4px
+}
+
+/* ── 날씨 배너 ── */
+.weather-banner{
+  background:linear-gradient(135deg,#0a7ea4,#0d9488);
+  color:white;padding:14px 16px;margin:0 16px 12px;border-radius:14px;
+  box-shadow:0 2px 10px rgba(10,126,164,0.2)
+}
+.weather-row{display:flex;align-items:center;gap:12px}
+.weather-temp{font-size:28px;font-weight:800}
+.weather-info{flex:1}
+.weather-title{font-size:13px;font-weight:800}
+.weather-desc{font-size:11px;opacity:0.85;margin-top:2px;line-height:1.5}
+.weather-tags{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}
+.wtag{
+  background:rgba(255,255,255,0.2);border-radius:100px;
+  padding:3px 10px;font-size:10px;font-weight:700
+}
+.wtag.warn{background:rgba(251,191,36,0.3);color:#fef9c3}
+
+/* 공통 */
+.pb-safe{padding-bottom:env(safe-area-inset-bottom,16px)}
+.together-bar{
+  background:#dcfce7;border-left:3px solid #22c55e;
+  padding:8px 12px;font-size:11px;color:#166534;
+  margin-bottom:8px;border-radius:0 8px 8px 0
+}
+.split-bar{
+  background:#fff7ed;border-left:3px solid #f97316;
+  padding:8px 12px;font-size:11px;color:#7c4b00;
+  margin-bottom:8px;border-radius:0 8px 8px 0
+}
+</style>
+</head>
+<body>
+<div id="app">
+
+  <!-- 상단 헤더 -->
+  <div class="app-header">
+    <div class="header-inner">
+      <div>
+        <div class="header-title">🎑 삿포로 가족여행</div>
+        <div class="header-sub">TW263 · 토~수 · 2가족 · 렌트카 2대</div>
+      </div>
+      <div class="header-right">
+        <div class="weather-chip">☀️ 8월 22~26°C</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 콘텐츠 영역 -->
+  <div class="content">
+
+    <!-- ══ 홈 화면 ══ -->
+    <div class="screen active" id="screen-home">
+      <div class="home-banner">
+        <h2>5일 일정 한눈에 보기</h2>
+        <p>인천 10:20 출발 → 삿포로 13:10 도착</p>
+        <div class="home-chips">
+          <span class="home-chip">🏌️ 골프 2회</span>
+          <span class="home-chip">🌾 비에이</span>
+          <span class="home-chip">🏡 오타루</span>
+          <span class="home-chip">♨️ 노보리베츠</span>
+          <span class="home-chip">🍺 맥주박물관</span>
+        </div>
+      </div>
+
+      <div class="section-label">일별 일정</div>
+      <div class="day-cards">
+        <div class="day-card" onclick="openDay(1)">
+          <div class="day-card-header">
+            <div class="day-badge"><div class="dn">1</div><div class="dd">토요일</div></div>
+            <div class="day-card-info">
+              <div class="day-card-title">입국 · 공항→호텔 · 각자 자유</div>
+              <div class="day-card-sub">TW263 10:20 → 13:10 · 체크인 후 자유시간</div>
+            </div>
+            <div class="day-card-arrow">›</div>
+          </div>
+          <div class="day-tags-row">
+            <span class="dtag">✈️ 입국</span>
+            <span class="dtag">🏨 체크인</span>
+            <span class="dtag orange">각자 자유</span>
+          </div>
+        </div>
+
+        <div class="day-card" onclick="openDay(2)">
+          <div class="day-card-header">
+            <div class="day-badge"><div class="dn">2</div><div class="dd">일요일</div></div>
+            <div class="day-card-info">
+              <div class="day-card-title">비에이 자유 드라이브 + 징기스칸</div>
+              <div class="day-card-sub">패치워크 로드 · 청의 연못 · 오픈런 17:00</div>
+            </div>
+            <div class="day-card-arrow">›</div>
+          </div>
+          <div class="day-tags-row">
+            <span class="dtag">🌾 비에이</span>
+            <span class="dtag">💙 청의 연못</span>
+            <span class="dtag red">🐑 징기스칸</span>
+          </div>
+        </div>
+
+        <div class="day-card" onclick="openDay(3)">
+          <div class="day-card-header">
+            <div class="day-badge"><div class="dn">3</div><div class="dd">월요일</div></div>
+            <div class="day-card-info">
+              <div class="day-card-title">골프 오전 + 전원 오타루 + 맥주박물관</div>
+              <div class="day-card-sub">자녀팀 오전 오타루 · 15:30 전원 합류</div>
+            </div>
+            <div class="day-card-arrow">›</div>
+          </div>
+          <div class="day-tags-row">
+            <span class="dtag green">⛳ 골프</span>
+            <span class="dtag">🏡 오타루</span>
+            <span class="dtag red">🍺 맥주박물관</span>
+          </div>
+        </div>
+
+        <div class="day-card" onclick="openDay(4)">
+          <div class="day-card-header">
+            <div class="day-badge"><div class="dn">4</div><div class="dd">화요일</div></div>
+            <div class="day-card-info">
+              <div class="day-card-title">골프 오전 + 전원 노보리베츠 온천</div>
+              <div class="day-card-sub">14:30 출발 · 지옥계곡 · 족욕 · 스프카레</div>
+            </div>
+            <div class="day-card-arrow">›</div>
+          </div>
+          <div class="day-tags-row">
+            <span class="dtag green">⛳ 골프</span>
+            <span class="dtag">🌋 노보리베츠</span>
+            <span class="dtag red">🍛 스프카레</span>
+          </div>
+        </div>
+
+        <div class="day-card" onclick="openDay(5)">
+          <div class="day-card-header">
+            <div class="day-badge"><div class="dn">5</div><div class="dd">수요일</div></div>
+            <div class="day-card-info">
+              <div class="day-card-title">각자 체크아웃 · 자유 · 귀국</div>
+              <div class="day-card-sub">TW264 14:30 출발 · 12:30 공항 합류</div>
+            </div>
+            <div class="day-card-arrow">›</div>
+          </div>
+          <div class="day-tags-row">
+            <span class="dtag orange">각자 자유</span>
+            <span class="dtag">🍪 시로이코이비토</span>
+            <span class="dtag">✈️ 귀국</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="section-label">빠른 메뉴</div>
+      <div class="shortcut-grid">
+        <button class="shortcut-btn" onclick="switchTab('restaurants')">
+          <div class="shortcut-icon">🍽</div>
+          <div class="shortcut-label">추천 식당</div>
+          <div class="shortcut-desc">예약·웨이팅 정보</div>
+        </button>
+        <button class="shortcut-btn" onclick="switchTab('info')">
+          <div class="shortcut-icon">🚗</div>
+          <div class="shortcut-label">주차 & 입장료</div>
+          <div class="shortcut-desc">장소별 정리</div>
+        </button>
+        <button class="shortcut-btn" onclick="switchTab('checklist')">
+          <div class="shortcut-icon">📋</div>
+          <div class="shortcut-label">준비 체크리스트</div>
+          <div class="shortcut-desc">예약·준비물</div>
+        </button>
+        <button class="shortcut-btn" onclick="switchTab('weather')">
+          <div class="shortcut-icon">☀️</div>
+          <div class="shortcut-label">날씨 & 팁</div>
+          <div class="shortcut-desc">8월 삿포로</div>
+        </button>
+      </div>
+      <div style="height:16px"></div>
+    </div>
+
+    <!-- ══ 일정 상세 화면 ══ -->
+    <div class="screen" id="screen-day">
+      <div class="day-detail-header" id="day-detail-header">
+        <button class="back-btn" onclick="goBack()">‹</button>
+        <div>
+          <div class="detail-title" id="day-detail-title"></div>
+          <div class="detail-sub" id="day-detail-sub"></div>
+        </div>
+      </div>
+      <div class="timeline pb-safe" id="day-timeline"></div>
+    </div>
+
+    <!-- ══ 식당 화면 ══ -->
+    <div class="screen" id="screen-restaurants">
+      <div class="section-label" style="padding-top:12px">추천 식당 & 카페</div>
+      <div class="rest-list">
+
+        <div class="rest-card" onclick="toggleCard(this)">
+          <div class="rest-card-header">
+            <div class="rest-icon">🍛</div>
+            <div class="rest-info">
+              <div class="rest-name">GARAKU (가라쿠)</div>
+              <div class="rest-category">스프카레 · 오도리역 도보 5분</div>
+            </div>
+            <div class="rest-badge badge-warn">예약불가</div>
+            <div class="rest-chevron">▼</div>
+          </div>
+          <div class="rest-detail">
+            <div class="rest-desc">삿포로 스프카레 대표 맛집. 닭튀김 스프카레 + 브로콜리 토핑 + 밥에 치즈 조합 추천.</div>
+            <div class="rest-meta">
+              📍 오도리역 도보 5분, 오쿠무라 빌딩 B1<br>
+              🕐 11:30~15:00 / 17:00~21:00<br>
+              💴 1인 약 ¥1,500~2,000<br>
+              💳 현금만 가능
+            </div>
+            <div class="rest-tip2">오픈 30분 전 현장 QR 대기표 발행. 저녁 16:30 등록 추천. 국물 소진 시 조기 마감.</div>
+          </div>
+        </div>
+
+        <div class="rest-card" onclick="toggleCard(this)">
+          <div class="rest-card-header">
+            <div class="rest-icon">🐑</div>
+            <div class="rest-info">
+              <div class="rest-name">다루마 (だるま) 5.5점</div>
+              <div class="rest-category">징기스칸 양고기 · 스스키노역 도보 3분</div>
+            </div>
+            <div class="rest-badge badge-warn">예약불가</div>
+            <div class="rest-chevron">▼</div>
+          </div>
+          <div class="rest-detail">
+            <div class="rest-desc">1954년 창업 노포. 마톤(성숙 양) 구이로 냄새 거의 없음. 삿포로 클래식 생맥주와 조합.</div>
+            <div class="rest-meta">
+              📍 스스키노역 도보 3분<br>
+              🕐 17:00~03:00 (평일 ~23:00)<br>
+              💴 1인 약 ¥2,000~3,000<br>
+              💳 현금만 가능
+            </div>
+            <div class="rest-tip2">오픈(17:00) 30분 전부터 번호표 발행. 번호표 후 근처 구경 가능. 물품보관함 있음.</div>
+          </div>
+        </div>
+
+        <div class="rest-card" onclick="toggleCard(this)">
+          <div class="rest-card-header">
+            <div class="rest-icon">🍺</div>
+            <div class="rest-info">
+              <div class="rest-name">삿포로 맥주박물관 & 홀</div>
+              <div class="rest-category">맥주 + 징기스칸 뷔페</div>
+            </div>
+            <div class="rest-badge badge-gold">사전예약 권장</div>
+            <div class="rest-chevron">▼</div>
+          </div>
+          <div class="rest-detail">
+            <div class="rest-desc">1877년 개업. 붉은 벽돌 박물관 무료 견학 후 맥주홀에서 생맥주 + 징기스칸 뷔페.</div>
+            <div class="rest-meta">
+              📍 삿포로 가든파크 내<br>
+              🕐 박물관 11:00~18:00 / 홀 11:30~20:00<br>
+              💴 뷔페 약 ¥2,000~3,500/인 + 음료 별도<br>
+              🅿️ 전용 주차장 있음 (유료)
+            </div>
+            <div class="rest-tip2">단체 방문이므로 출발 1~2주 전 공식 홈페이지 또는 전화 예약 강력 권장.</div>
+          </div>
+        </div>
+
+        <div class="rest-card" onclick="toggleCard(this)">
+          <div class="rest-card-header">
+            <div class="rest-icon">🍣</div>
+            <div class="rest-info">
+              <div class="rest-name">네무로 하나마루</div>
+              <div class="rest-category">회전초밥 · JR타워 스텔라 플레이스 6F</div>
+            </div>
+            <div class="rest-badge badge-warn">웨이팅 필수</div>
+            <div class="rest-chevron">▼</div>
+          </div>
+          <div class="rest-detail">
+            <div class="rest-desc">홋카이도 현지 해산물 회전초밥. 성게·연어·관자 초밥 퀄리티 좋음.</div>
+            <div class="rest-meta">
+              📍 삿포로역 JR타워 스텔라 플레이스 6F<br>
+              🕐 11:00~22:00<br>
+              💴 1인 약 ¥1,500~3,000<br>
+              🅿️ JR타워 지하 주차장 (30분 약 ¥220)
+            </div>
+            <div class="rest-tip2">평일 11:00 오픈 직후 방문 시 웨이팅 단축. 30분~1시간 대기 예상.</div>
+          </div>
+        </div>
+
+        <div class="rest-card" onclick="toggleCard(this)">
+          <div class="rest-card-header">
+            <div class="rest-icon">🦀</div>
+            <div class="rest-info">
+              <div class="rest-name">오타루 삼각시장 카이센동</div>
+              <div class="rest-category">해산물 덮밥 · 오타루역 앞</div>
+            </div>
+            <div class="rest-badge badge-ok">현장 방문</div>
+            <div class="rest-chevron">▼</div>
+          </div>
+          <div class="rest-detail">
+            <div class="rest-desc">성게·연어알·털게 올린 카이센동. 오타루에서 먹는 해산물이 신선도 최상.</div>
+            <div class="rest-meta">
+              📍 오타루역 앞 삼각시장<br>
+              🕐 07:00~17:00<br>
+              💴 1인 약 ¥2,000~3,500<br>
+              🅿️ 오타루역 앞 코인파킹 ¥600~800/12시간
+            </div>
+            <div class="rest-tip2">11:30 전 방문 시 웨이팅 없음. 시장 내 여러 식당 중 선택 가능.</div>
+          </div>
+        </div>
+
+        <div class="rest-card" onclick="toggleCard(this)">
+          <div class="rest-card-header">
+            <div class="rest-icon">☕</div>
+            <div class="rest-info">
+              <div class="rest-name">모리히코 (MORIHICO)</div>
+              <div class="rest-category">삿포로 로컬 카페 · 시내 여러 지점</div>
+            </div>
+            <div class="rest-badge badge-ok">현장 방문</div>
+            <div class="rest-chevron">▼</div>
+          </div>
+          <div class="rest-detail">
+            <div class="rest-desc">1991년부터 운영. 오래된 목조 건물 개조 인테리어. 홋카이도산 원두 드립 커피.</div>
+            <div class="rest-meta">
+              📍 삿포로 시내 여러 지점<br>
+              🕐 10:00~22:00 (지점마다 다름)<br>
+              💴 커피 + 케이크 약 ¥1,000~1,500
+            </div>
+            <div class="rest-tip2">호텔 가까운 지점 사전 확인 후 방문. 귀국날 아침으로 추천.</div>
+          </div>
+        </div>
+
+        <div class="rest-card" onclick="toggleCard(this)">
+          <div class="rest-card-header">
+            <div class="rest-icon">🍰</div>
+            <div class="rest-info">
+              <div class="rest-name">르타오 (LeTAO) 본점</div>
+              <div class="rest-category">치즈케이크 카페 · 오타루 사카이마치</div>
+            </div>
+            <div class="rest-badge badge-ok">현장 방문</div>
+            <div class="rest-chevron">▼</div>
+          </div>
+          <div class="rest-detail">
+            <div class="rest-desc">오타루 명물 이중주(ドゥーブルフロマージュ) 치즈케이크. 본점 2층 카페에서 바다 전망.</div>
+            <div class="rest-meta">
+              📍 오타루 사카이마치 거리 본점<br>
+              🕐 09:00~18:00<br>
+              💴 케이크 + 커피 약 ¥1,000~1,500
+            </div>
+            <div class="rest-tip2">선물용 박스는 오전 일찍 구매 권장. 2층 카페 오전 방문 시 웨이팅 거의 없음.</div>
+          </div>
+        </div>
+
+        <div class="rest-card" onclick="toggleCard(this)">
+          <div class="rest-card-header">
+            <div class="rest-icon">🍨</div>
+            <div class="rest-info">
+              <div class="rest-name">파르페테리아 파루</div>
+              <div class="rest-category">시메 파르페 · 스스키노역 도보 3분</div>
+            </div>
+            <div class="rest-badge badge-warn">웨이팅 있음</div>
+            <div class="rest-chevron">▼</div>
+          </div>
+          <div class="rest-detail">
+            <div class="rest-desc">저녁 식사 후 홋카이도 우유 파르페로 마무리하는 삿포로 식문화. 8월 멜론 파르페.</div>
+            <div class="rest-meta">
+              📍 스스키노역 도보 3분<br>
+              🕐 18:00~01:00 (토 15:00~)<br>
+              💴 1인 ¥1,500~2,500
+            </div>
+            <div class="rest-tip2">20시 이후 방문 시 웨이팅 비교적 짧음.</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ══ 주차 & 입장료 화면 ══ -->
+    <div class="screen" id="screen-info">
+      <div class="section-label" style="padding-top:12px">장소별 주차 & 입장료</div>
+      <div class="info-list">
+
+        <div class="info-card" onclick="toggleCard(this)">
+          <div class="info-card-header">
+            <div class="info-card-icon">🏡</div>
+            <div class="info-card-info">
+              <div class="info-card-title">오타루 운하 · 오르골당 · 삼각시장</div>
+              <div class="info-card-sub">코인파킹 이용 · 도보 이동 가능</div>
+            </div>
+            <div class="info-chevron">▼</div>
+          </div>
+          <div class="info-card-detail">
+            <div class="park-item"><strong>주차</strong>오르골당 옆 코인파킹 또는 항구 주차장<br>코인파킹 <span class="price-tag price-paid">¥600~800/12시간</span><br>항구 주차장 정액 <span class="price-tag price-paid">¥800/1일</span></div>
+            <div class="park-item"><strong>입장료</strong>운하 산책 <span class="price-tag price-free">무료</span> · 오르골당 <span class="price-tag price-free">무료</span><br>운하 크루즈 <span class="price-tag price-paid">¥1,800/인</span></div>
+          </div>
+        </div>
+
+        <div class="info-card" onclick="toggleCard(this)">
+          <div class="info-card-header">
+            <div class="info-card-icon">🌾</div>
+            <div class="info-card-info">
+              <div class="info-card-title">비에이 — 패치워크·파노라마 로드</div>
+              <div class="info-card-sub">포토 스팟 길가 주차 무료</div>
+            </div>
+            <div class="info-chevron">▼</div>
+          </div>
+          <div class="info-card-detail">
+            <div class="park-item"><strong>주차</strong>각 포토 스팟 길가 <span class="price-tag price-free">무료</span><br>사계채의 언덕 전용 주차장 <span class="price-tag price-free">무료</span></div>
+            <div class="park-item"><strong>입장료</strong>사계채의 언덕 <span class="price-tag price-paid">¥500/인</span><br>트랙터 버기 <span class="price-tag price-paid">+¥500/인</span><br>청의 연못 <span class="price-tag price-free">무료</span></div>
+            <div class="park-item"><strong>맵코드</strong>비에이역 349 079 798<br>켄과 메리의 나무 349 188 841<br>사계채의 언덕 349 036 065<br>청의 연못 796 182 764</div>
+          </div>
+        </div>
+
+        <div class="info-card" onclick="toggleCard(this)">
+          <div class="info-card-header">
+            <div class="info-card-icon">🍺</div>
+            <div class="info-card-info">
+              <div class="info-card-title">삿포로 맥주박물관</div>
+              <div class="info-card-sub">전용 주차장 있음</div>
+            </div>
+            <div class="info-chevron">▼</div>
+          </div>
+          <div class="info-card-detail">
+            <div class="park-item"><strong>주차</strong>삿포로 가든파크 전용 주차장 <span class="price-tag price-check">유료(현장 확인)</span></div>
+            <div class="park-item"><strong>입장료</strong>박물관 자유 견학 <span class="price-tag price-free">무료</span><br>프리미엄 투어 <span class="price-tag price-paid">¥600/인</span><br>맥주홀 식사 ¥2,000~3,500/인 + 음료 별도</div>
+          </div>
+        </div>
+
+        <div class="info-card" onclick="toggleCard(this)">
+          <div class="info-card-header">
+            <div class="info-card-icon">🌋</div>
+            <div class="info-card-info">
+              <div class="info-card-title">노보리베츠 지옥계곡 · 온천</div>
+              <div class="info-card-sub">전용 주차장 · 맵코드 603 315 414</div>
+            </div>
+            <div class="info-chevron">▼</div>
+          </div>
+          <div class="info-card-detail">
+            <div class="park-item"><strong>주차</strong>지옥 계곡 전용 주차장 <span class="price-tag price-paid">¥500/24시간</span><br>오유누마 주차장 (지옥계곡 주차권 제시 시) <span class="price-tag price-free">무료</span></div>
+            <div class="park-item"><strong>입장료</strong>지옥 계곡 <span class="price-tag price-free">무료</span> · 족욕 <span class="price-tag price-free">무료</span><br>유모토 사기리유 온천 <span class="price-tag price-paid">¥490~700/인</span><br>다이이치 타키모토칸 <span class="price-tag price-paid">약 ¥2,000/인</span></div>
+          </div>
+        </div>
+
+        <div class="info-card" onclick="toggleCard(this)">
+          <div class="info-card-header">
+            <div class="info-card-icon">🍪</div>
+            <div class="info-card-info">
+              <div class="info-card-title">시로이 코이비토 파크</div>
+              <div class="info-card-sub">무료 주차 · 공항 방향</div>
+            </div>
+            <div class="info-chevron">▼</div>
+          </div>
+          <div class="info-card-detail">
+            <div class="park-item"><strong>주차</strong>전용 주차장 <span class="price-tag price-free">무료</span> (렌트카 2대 여유 있음)</div>
+            <div class="park-item"><strong>입장료</strong>유료 구역 <span class="price-tag price-paid">¥600/인</span><br>정원·쇼핑 무료 구역 <span class="price-tag price-free">무료</span></div>
+          </div>
+        </div>
+
+        <div class="info-card" onclick="toggleCard(this)">
+          <div class="info-card-header">
+            <div class="info-card-icon">🏌️</div>
+            <div class="info-card-info">
+              <div class="info-card-title">골프장 (삿포로 근교)</div>
+              <div class="info-card-sub">GDO / Rakuten Golf 사전 예약</div>
+            </div>
+            <div class="info-chevron">▼</div>
+          </div>
+          <div class="info-card-detail">
+            <div class="park-item"><strong>주차</strong>골프장 전용 주차장 <span class="price-tag price-free">무료</span></div>
+            <div class="park-item"><strong>비용</strong>그린피 + 카트 + 캐디피 <span class="price-tag price-paid">약 ¥12,000~20,000/인</span><br>온라인 선결제 또는 현장 결제</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ══ 체크리스트 화면 ══ -->
+    <div class="screen" id="screen-checklist">
+      <div class="section-label" style="padding-top:12px">여행 준비 체크리스트</div>
+      <div class="info-list">
+
+        <div class="info-card" onclick="toggleCard(this)">
+          <div class="info-card-header">
+            <div class="info-card-icon">🍺</div>
+            <div class="info-card-info">
+              <div class="info-card-title">맥주박물관 홀 예약</div>
+              <div class="info-card-sub">출발 1~2주 전 필수</div>
+            </div>
+            <div class="info-chevron">▼</div>
+          </div>
+          <div class="info-card-detail">
+            <div class="check-item"><div class="check-dot"></div><div>공식 홈페이지 또는 전화로 사전 예약. 단체(6인 이상)라 예약 없으면 대기 가능성 높음.</div></div>
+          </div>
+        </div>
+
+        <div class="info-card" onclick="toggleCard(this)">
+          <div class="info-card-header">
+            <div class="info-card-icon">⛳</div>
+            <div class="info-card-info">
+              <div class="info-card-title">골프장 예약 (2회)</div>
+              <div class="info-card-sub">GDO 또는 Rakuten Golf</div>
+            </div>
+            <div class="info-chevron">▼</div>
+          </div>
+          <div class="info-card-detail">
+            <div class="check-item"><div class="check-dot"></div><div>GDO(golfdigest.co.jp) 또는 Rakuten Golf에서 한국 출발 전 예약. 1인 ¥12,000~20,000 예상.</div></div>
+            <div class="check-item"><div class="check-dot"></div><div>국제면허증 2명분 필참. 오전 조 티타임 우선 요청.</div></div>
+          </div>
+        </div>
+
+        <div class="info-card" onclick="toggleCard(this)">
+          <div class="info-card-header">
+            <div class="info-card-icon">🚗</div>
+            <div class="info-card-info">
+              <div class="info-card-title">렌트카 2대 예약</div>
+              <div class="info-card-sub">국제면허증 2명분 필참</div>
+            </div>
+            <div class="info-chevron">▼</div>
+          </div>
+          <div class="info-card-detail">
+            <div class="check-item"><div class="check-dot"></div><div>중형 세단 또는 SUV 각 1대. 출국 전 온라인 예약 필수.</div></div>
+            <div class="check-item"><div class="check-dot"></div><div>ETC 카드 또는 현금 요금소 준비. 맵코드 입력 방식 미리 숙지.</div></div>
+            <div class="check-item"><div class="check-dot"></div><div>일본 좌측 통행 — 삿포로 시내에서 충분히 적응 후 장거리 이동.</div></div>
+          </div>
+        </div>
+
+        <div class="info-card" onclick="toggleCard(this)">
+          <div class="info-card-header">
+            <div class="info-card-icon">💴</div>
+            <div class="info-card-info">
+              <div class="info-card-title">현금 준비</div>
+              <div class="info-card-sub">다루마·GARAKU 현금만 가능</div>
+            </div>
+            <div class="info-chevron">▼</div>
+          </div>
+          <div class="info-card-detail">
+            <div class="check-item"><div class="check-dot"></div><div>다루마 징기스칸 · GARAKU 스프카레 — 현금만 가능. 1인 1일 식비 ¥5,000~8,000 예상.</div></div>
+          </div>
+        </div>
+
+        <div class="info-card" onclick="toggleCard(this)">
+          <div class="info-card-header">
+            <div class="info-card-icon">☀️</div>
+            <div class="info-card-info">
+              <div class="info-card-title">8월 준비물</div>
+              <div class="info-card-sub">자외선 강함 · 강수확률 36%</div>
+            </div>
+            <div class="info-chevron">▼</div>
+          </div>
+          <div class="info-card-detail">
+            <div class="check-item"><div class="check-dot"></div><div>선크림 · 모자 · 선글라스 필수</div></div>
+            <div class="check-item"><div class="check-dot"></div><div>접이식 우산 1개/가족</div></div>
+            <div class="check-item"><div class="check-dot"></div><div>족욕용 수건 (노보리베츠)</div></div>
+            <div class="check-item"><div class="check-dot"></div><div>저녁용 가벼운 긴팔 1장 권장</div></div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ══ 날씨 화면 ══ -->
+    <div class="screen" id="screen-weather">
+      <div class="section-label" style="padding-top:12px">8월 삿포로 날씨 & 여행 팁</div>
+      <div style="padding:0 16px 16px;display:flex;flex-direction:column;gap:10px">
+        <div class="weather-banner">
+          <div class="weather-row">
+            <div class="weather-temp">22~26°C</div>
+            <div class="weather-info">
+              <div class="weather-title">삿포로 8월 날씨</div>
+              <div class="weather-desc">최고 26°C / 최저 17°C<br>한국보다 시원하고 습도 낮음</div>
+            </div>
+          </div>
+          <div class="weather-tags">
+            <span class="wtag">☀️ 맑은 날 월 10~15일</span>
+            <span class="wtag warn">🌧 강수확률 36%</span>
+            <span class="wtag warn">🕶 자외선 강함</span>
+          </div>
+        </div>
+
+        <div class="info-card">
+          <div style="padding:14px">
+            <div style="font-size:13px;font-weight:800;color:#1e293b;margin-bottom:10px">✈️ 항공 정보</div>
+            <div style="font-size:12px;color:#475569;line-height:1.8">
+              <strong>출국</strong> TW263 · 인천 10:20 → 신치토세 13:10<br>
+              <strong>귀국</strong> TW264 · 신치토세 14:30 → 인천 17:40<br>
+              소요시간 약 2시간 50분
+            </div>
+          </div>
+        </div>
+
+        <div class="info-card">
+          <div style="padding:14px">
+            <div style="font-size:13px;font-weight:800;color:#1e293b;margin-bottom:10px">🏨 숙박</div>
+            <div style="font-size:12px;color:#475569;line-height:1.8">
+              이비스 스타일 삿포로 4박<br>
+              삿포로역 도보권 · 시내 모든 이동 기점으로 적합
+            </div>
+          </div>
+        </div>
+
+        <div class="info-card">
+          <div style="padding:14px">
+            <div style="font-size:13px;font-weight:800;color:#1e293b;margin-bottom:10px">💡 여행 팁</div>
+            <div style="font-size:12px;color:#475569;line-height:1.8">
+              • 공항→호텔 렌트카로 약 50분<br>
+              • 비에이 왕복 약 5시간 — 07:00 출발 권장<br>
+              • GARAKU·다루마 현금만 가능 — 엔화 충분히 환전<br>
+              • 노보리베츠 온천 수건 지참 권장<br>
+              • 시로이 코이비토 파크는 공항 방향 위치 — 귀국날 동선 최적
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- end content -->
+
+  <!-- 하단 탭바 -->
+  <div class="tab-bar">
+    <button class="tab-btn active" id="tab-home" onclick="switchTab('home')">
+      <div class="tab-icon">🏠</div>
+      <div class="tab-label">홈</div>
+    </button>
+    <button class="tab-btn" id="tab-restaurants" onclick="switchTab('restaurants')">
+      <div class="tab-icon">🍽</div>
+      <div class="tab-label">식당</div>
+    </button>
+    <button class="tab-btn" id="tab-info" onclick="switchTab('info')">
+      <div class="tab-icon">🚗</div>
+      <div class="tab-label">주차</div>
+    </button>
+    <button class="tab-btn" id="tab-checklist" onclick="switchTab('checklist')">
+      <div class="tab-icon">📋</div>
+      <div class="tab-label">체크리스트</div>
+    </button>
+    <button class="tab-btn" id="tab-weather" onclick="switchTab('weather')">
+      <div class="tab-icon">☀️</div>
+      <div class="tab-label">날씨</div>
+    </button>
+  </div>
+
+</div><!-- end app -->
+
+<script>
+// ── 탭 전환 ──
+function switchTab(tab) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  const screenMap = {
+    home: 'screen-home',
+    restaurants: 'screen-restaurants',
+    info: 'screen-info',
+    checklist: 'screen-checklist',
+    weather: 'screen-weather'
+  };
+  const targetScreen = screenMap[tab] || 'screen-home';
+  const el = document.getElementById(targetScreen);
+  if (el) { el.classList.add('active'); el.scrollTop = 0; }
+  const tabEl = document.getElementById('tab-' + tab);
+  if (tabEl) tabEl.classList.add('active');
+}
+
+// ── 일정 상세 열기 ──
+const dayData = {
+  1: {
+    title: 'Day 1 — 토요일',
+    sub: 'TW263 10:20 → 13:10 · 체크인 후 각자 자유',
+    items: [
+      { time:'10:20', type:'move', name:'TW263 인천 출발', brief:'10:20 출발 → 13:10 신치토세 도착',
+        desc:'티웨이항공 TW263. 기내식 제공. 약 2시간 50분 소요.', tip:null, warn:null },
+      { time:'13:10~15:10', type:'move', name:'입국 수속 · 렌트카 2대 수령', brief:'입국심사 + 렌트카 카운터',
+        desc:'신치토세공항 국제선 도착 후 입국심사 + 수하물 수령 약 1~1.5시간. 이후 1층 렌트카 카운터에서 2대 수령.',
+        tip:'렌트카 2대 출국 전 온라인 예약 필수. 국제면허증 2명분 필참.', warn:null },
+      { time:'15:10~16:00', type:'move', name:'공항 → 이비스 스타일 삿포로', brief:'렌트카로 호텔 직행 약 50분',
+        desc:'렌트카 2대로 삿포로 호텔 직행. 고속도로 이용 약 50분.',
+        tip:'첫날은 호텔 체크인 후 재정비. 오타루는 이후 일정에 충분히 있음.', warn:null },
+      { time:'16:00~', type:'stay', name:'🏨 체크인 · 각자 자유시간 시작', brief:'체크인 완료 후 두 가족 각자 자유',
+        desc:'호텔 체크인 완료 후 두 가족 각자 자유시간. 첫날은 이동 피로가 있으므로 무리하지 않는 것 권장.',
+        free: '☕ 모리히코 카페 — 호텔 도보권\n🌆 오도리 공원 산책 + 동구리 베이커리\n🛍 타누키코지 상점가 쇼핑\n🍜 라멘 요코초 — 삿포로 미소라멘 ¥900~1,200\n🍣 네무로 하나마루 회전초밥\n😴 호텔 휴식 (내일을 위해)',
+        tip:null, warn:null }
+    ]
+  },
+  2: {
+    title: 'Day 2 — 일요일',
+    sub: '비에이 자유 드라이브 · 각 가족 렌트카 · 저녁 징기스칸',
+    items: [
+      { time:'07:00~09:30', type:'move', name:'호텔 출발 → 비에이', brief:'렌트카로 이동 약 2시간 30분',
+        desc:'두 가족 각자 렌트카로 출발. 고속도로(道央道) 이용 — 삿포로IC → 아사히카와IC → 비에이. 도중 스나가와 하이웨이 오아시스 휴게소 잠깐 휴식 권장.',
+        tip:'네비 목적지: 비에이역(美瑛駅). 맵코드: 349 079 798', warn:null },
+      { time:'09:30~11:00', type:'special', name:'① 패치워크 로드 드라이브', brief:'켄과 메리의 나무 → 세븐스타 나무 → 제루부의 언덕',
+        desc:'비에이역 북쪽 방향. 각 포인트마다 차 세우고 5~10분 관람. 드라이브 자체가 핵심이므로 서두르지 않아도 됨. 8월은 초록·황금빛 밭 물결.',
+        mapcode:'켄과 메리의 나무: 349 188 841 (길가 무료)\n세븐스타 나무: 349 218 413\n제루부의 언덕: 349 189 267 (주차 무료)', warn:null },
+      { time:'11:00~12:30', type:'meal', name:'비에이 마을 점심', brief:'비에이역 주변 각자 자유식',
+        desc:'비에이역 주변으로 복귀해 각자 점심. 준페이(じゅんぺい) — 해산물 덮밥·카레 전문. 홋카이도 우유 소프트아이스크림 필수.',
+        tip:'비에이역 주변 식당 수가 적으므로 11:30 이전 입장 권장.', warn:null },
+      { time:'12:30~13:30', type:'special', name:'② 파노라마 로드 드라이브', brief:'신카이노오카 → 사계채의 언덕',
+        desc:'비에이역 남쪽 방향. 신카이노오카 전망공원 — 다이세츠산 연봉 전망. 이후 사계채의 언덕.',
+        mapcode:'신카이노오카: 349 078 484 (무료)\n사계채의 언덕: 349 036 065 (주차 무료)\n입장료 ¥500 · 트랙터 버기 +¥500', warn:null },
+      { time:'13:30~14:30', type:'special', name:'③ 흰수염 폭포 → 청의 연못', brief:'두 곳 차로 5분 거리',
+        desc:'흰수염 폭포 약 15~20분 관람. 이후 청의 연못 약 25~30분. 맑은 날 오후에 색이 더 선명.',
+        mapcode:'흰수염 폭포: 796 182 764 (주차 무료)\n청의 연못: 796 182 764 인근 (무료)', warn:null },
+      { time:'14:30~17:00', type:'move', name:'비에이 → 삿포로 귀환', brief:'이동 약 2시간 30분',
+        desc:'징기스칸 오픈런을 위해 14:30 출발. 도중 이온몰 기념품 쇼핑 가능 (+30분).',
+        tip:'삿포로 도착 후 호텔 복귀 → 짧게 쉬고 다루마로 이동.', warn:null },
+      { time:'16:30', type:'meal', name:'다루마 5.5점 — 번호표 대기', brief:'두 가족 합류 · 오픈 30분 전',
+        desc:'두 가족 합류. 17:00 오픈 30분 전부터 번호표 발행. 번호표 후 편의점·스스키노 거리 구경.',
+        tip:'현금 준비 필수. 스스키노 인근 코인파킹 이용.', warn:null },
+      { time:'17:00~19:00', type:'meal', name:'🐑 징기스칸 다루마 오픈런!', brief:'오픈과 동시 입장',
+        desc:'오픈(17:00)과 동시 입장. 마톤(성숙 양) 구이, 소스에 찍어 먹는 삿포로식. 삿포로 클래식 생맥주와 함께.',
+        tip:null, warn:'예약 불가 · 현금 결제만 · 5.5점 번호표 시스템' }
+    ]
+  },
+  3: {
+    title: 'Day 3 — 월요일',
+    sub: '골프 오전 + 전원 오타루 15:30 합류 + 맥주박물관',
+    items: [
+      { time:'07:00', type:'golf', name:'⛳ 어른팀 — 골프장 출발', brief:'오전 라운딩 14:00 종료 목표',
+        desc:'삿포로 국제 컨트리클럽 또는 고마이 골프클럽. 오전 조 티타임 우선 요청.',
+        tip:'GDO 또는 Rakuten Golf 사전 예약 필수. 캐디피 포함 1인 ¥12,000~20,000.', warn:null },
+      { time:'08:30~09:10', type:'move', name:'🚗 자녀팀 — 오타루 출발', brief:'렌트카로 약 40분',
+        desc:'자녀팀은 렌트카로 오타루 선출발. 삿포로 → 오타루 약 40분. 오타루역 앞 코인파킹 이용.',
+        tip:null, warn:null },
+      { time:'09:10~10:00', type:'special', name:'자녀팀 — 오타루 운하 산책', brief:'오전 한산한 시간대',
+        desc:'오타루 운하 산책로. 오전 시간대라 관광객 적어 한산. 사진 찍으며 여유롭게.',
+        tip:null, warn:null },
+      { time:'10:00~11:30', type:'cafe', name:'자녀팀 — 르타오 카페 + 오르골당', brief:'치즈케이크 + 오르골 구경',
+        desc:'르타오 본점 2층 카페에서 이중주 치즈케이크 + 커피. 이후 오르골당 구경 및 기념품 쇼핑.',
+        tip:'르타오 선물용 박스는 오전 일찍 구매. 2층 카페 오전 웨이팅 거의 없음.', warn:null },
+      { time:'11:30~12:30', type:'meal', name:'자녀팀 — 카이센동 점심', brief:'삼각시장 또는 운하 근처',
+        desc:'오타루역 앞 삼각시장 또는 운하 근처 해산물 식당. 성게·연어알·털게 카이센동.',
+        tip:'11:30 전 입장 시 웨이팅 짧음.', warn:null },
+      { time:'12:30~15:30', type:'cafe', name:'자녀팀 — 어른팀 합류 전 자유', brief:'운하 크루즈 or 카페 대기',
+        desc:'어른팀 합류(15:30 예정)까지 자유. 운하 크루즈(¥1,800, 40분), 사카이마치 거리 쇼핑, 카페 휴식.',
+        tip:null, warn:null },
+      { time:'14:00~15:30', type:'golf', name:'⛳ 어른팀 — 골프 종료 → 오타루', brief:'14:00 종료 · 이동 40분',
+        desc:'14:00 라운딩 종료. 간단 정리 후 오타루 출발. 14:30 출발 기준 15:10~15:30 도착.',
+        tip:null, warn:null },
+      { time:'15:30~17:30', type:'special', name:'🏡 전원 합류 — 오타루 함께', brief:'운하·사카이마치 거리 산책',
+        desc:'어른팀 합류 후 두 가족 모두 함께 오타루 관광. 운하 산책, 사카이마치 기념품 쇼핑.',
+        tip:'어른팀은 골프 후라 가볍게 산책 위주 추천.', warn:null },
+      { time:'17:30~18:30', type:'move', name:'오타루 → 삿포로 맥주공원', brief:'이동 약 40분',
+        desc:'오타루에서 삿포로 맥주공원까지 약 40분.',
+        tip:'주차: 삿포로 가든파크 전용 주차장. 맥주홀 사전 예약 확인.', warn:null },
+      { time:'18:30~20:30', type:'special', name:'🍺 맥주박물관 + 맥주홀 저녁', brief:'생맥주 + 징기스칸 뷔페',
+        desc:'붉은 벽돌 박물관 자유 견학 후 맥주홀에서 생맥주 + 징기스칸 뷔페.',
+        tip:null, warn:'맥주홀 사전 예약 강력 권장. 출발 1~2주 전 완료.' },
+      { time:'20:30~', type:'free', name:'식사 후 각자 자유시간', brief:'스스키노 야경·쇼핑·디저트',
+        desc:'저녁 후 각자 자유.',
+        free:'🍨 파르페테리아 파루 — 시메 파르페, 20시 이후 웨이팅 짧음\n🛍 스스키노·타누키코지 야간 쇼핑\n😴 호텔 복귀',
+        tip:null, warn:null }
+    ]
+  },
+  4: {
+    title: 'Day 4 — 화요일',
+    sub: '골프 오전 + 전원 노보리베츠 16:10 합류 + 스프카레',
+    items: [
+      { time:'07:00', type:'golf', name:'⛳ 어른팀 — 골프장 출발', brief:'14:00 종료 목표',
+        desc:'오전 라운딩 14:00 종료 목표. 클럽하우스 간단 정리 후 바로 이동.',
+        tip:null, warn:null },
+      { time:'09:00~14:00', type:'free', name:'자녀팀 — 삿포로 시내 자유', brief:'모이와산·쇼핑·카페 등',
+        desc:'어른팀 합류까지 삿포로 시내 자유.',
+        free:'🏔 모이와산 로프웨이 — 360도 전망, 왕복 ¥2,100\n🛍 타누키코지·스텔라 플레이스\n☕ 모리히코 카페\n🍪 시로이 코이비토 파크 — ¥600',
+        tip:null, warn:null },
+      { time:'14:00~14:30', type:'move', name:'전원 집결 → 노보리베츠 출발', brief:'렌트카 2대 · 고속도로 이용',
+        desc:'어른팀 골프 종료 후 자녀팀과 합류. 두 가족 렌트카 2대로 노보리베츠 출발.',
+        tip:'네비 목적지: 登別地獄谷(지옥 계곡). 맵코드: 603 315 414', warn:null },
+      { time:'14:30~16:10', type:'move', name:'삿포로 → 노보리베츠 이동', brief:'고속도로 약 1시간 40분',
+        desc:'도央道 이용 약 1시간 40분. 도중 휴게소 1회 정차 가능.',
+        tip:null, warn:null },
+      { time:'16:10~17:00', type:'special', name:'🌋 지옥 계곡 + 오유누마 족욕', brief:'데크 산책 30분 + 족욕 무료',
+        desc:'지옥 계곡 데크 산책로 약 30분. 유황 증기와 펄펄 끓는 온천수. 이후 오유누마 자연 족욕탕(무료).',
+        tip:'주차: 지옥 계곡 전용 주차장 ¥500/24시간. 수건 지참 권장.', warn:null },
+      { time:'17:00~18:30', type:'special', name:'♨ 온천 입욕 — 각 가족 따로', brief:'유모토 사기리유 or 다이이치',
+        desc:'두 곳 중 선택. 각 가족이 따로 이용 후 온천 마을 입구에서 합류. 18:30 출발 목표.',
+        info:'① 유모토 사기리유 — ¥490~700/인, 07:00~21:00\n   규모 작지만 원천 100% 직공급. 17시 이후도 입장 가능.\n② 다이이치 타키모토칸 — 약 ¥2,000/인\n   접수 마감 17:00 ※ 17:00 도착 시 현장 확인 필수',
+        tip:null, warn:null },
+      { time:'18:30~20:00', type:'move', name:'노보리베츠 → 삿포로 귀환', brief:'약 1시간 40분',
+        desc:'18:30 출발 기준 20:00 삿포로 도착. GARAKU 대기표 사전 등록이 핵심.',
+        tip:null, warn:'GARAKU 예약 불가. 한 명이 먼저 16:30~17:00에 삿포로 복귀 후 현장 QR 대기표 등록 권장.' },
+      { time:'20:00~21:30', type:'meal', name:'🍛 GARAKU 스프카레', brief:'전원 합류 · 닭튀김 추천',
+        desc:'대기표 순서에 맞춰 입장. 닭튀김 스프카레 + 브로콜리 토핑 + 치즈 추가 조합 추천.',
+        tip:null, warn:'예약 불가 · 현금만 · 국물 소진 시 조기 마감' },
+      { time:'21:30~', type:'free', name:'식사 후 각자 자유시간', brief:'파르페·쇼핑·호텔 복귀',
+        desc:'저녁 후 각자 자유.',
+        free:'🍨 파르페테리아 파루 — 20시 이후 웨이팅 짧음, ¥1,500~2,500\n🛍 스스키노 야경·쇼핑\n😴 호텔 복귀 (내일 귀국 준비)',
+        tip:null, warn:null }
+    ]
+  },
+  5: {
+    title: 'Day 5 — 수요일',
+    sub: 'TW264 14:30 귀국 · 12:30 공항 합류',
+    items: [
+      { time:'08:00~', type:'free', name:'각자 체크아웃 · 자유시간', brief:'짐 맡기고 각자 오전 자유',
+        desc:'두 가족 각자 체크아웃. 짐은 호텔 프런트 맡기고 자유시간. 11:30 공항 출발 기준으로 오전을 자유롭게.',
+        free:'🍪 시로이 코이비토 파크 — ¥600, 주차 무료, 공항 방향\n☕ 모리히코 카페 — 여유로운 마지막 아침\n🛍 삿포로역 스텔라 플레이스 기념품 쇼핑\n🍜 라멘 요코초 — 귀국 전 마지막 라멘\n😴 호텔 로비 대기 후 바로 공항',
+        tip:null, warn:null },
+      { time:'10:30~11:30', type:'meal', name:'마지막 점심 — 네무로 하나마루', brief:'JR타워 6F · 평일 오픈런 추천',
+        desc:'삿포로역 JR타워 스텔라 플레이스 6층. 홋카이도 해산물 회전초밥으로 마지막 식사.',
+        tip:'평일 11:00 오픈 직후 방문 시 웨이팅 단축. 삿포로역 직결.', warn:null },
+      { time:'11:30~12:30', type:'move', name:'호텔 짐 수령 → 공항 이동', brief:'12:30 공항 도착 목표',
+        desc:'호텔에서 짐 수령 → 각자 렌트카로 신치토세 공항 이동 약 50분. 12:30 공항 도착 목표.',
+        tip:'TW264 14:30 출발 기준 2시간 전 도착. 렌트카 2대 공항 반납 후 탑승 수속.', warn:null },
+      { time:'12:30~14:30', type:'move', name:'공항 합류 · 탑승 수속 · 면세점', brief:'두 가족 공항에서 만남',
+        desc:'렌트카 반납 후 두 가족 공항 합류. 탑승 수속 + 출국심사 + 면세점 쇼핑.',
+        tip:null, warn:null },
+      { time:'14:30', type:'stay', name:'✈ TW264 신치토세 출발', brief:'→ 인천 17:40 도착',
+        desc:'티웨이항공 TW264. 신치토세 14:30 출발 → 인천 17:40 도착. 약 2시간 10분.',
+        tip:null, warn:null }
+    ]
+  }
+};
+
+function openDay(n) {
+  const d = dayData[n];
+  document.getElementById('day-detail-title').textContent = d.title;
+  document.getElementById('day-detail-sub').textContent = d.sub;
+  const tl = document.getElementById('day-timeline');
+  tl.innerHTML = '';
+
+  // 비행편 블록 (Day1, Day5)
+  if (n === 1) {
+    tl.innerHTML += `<div class="flight-block">
+      <div class="fl-airline">티웨이항공 TW263</div>
+      <div class="flight-row" style="margin-top:8px">
+        <div class="fl-city"><div class="fl-code">ICN</div><div class="fl-time">10:20</div><div class="fl-name">인천</div></div>
+        <div class="fl-mid"><div class="fl-duration">약 2시간 50분</div><div class="fl-bar"></div></div>
+        <div class="fl-city"><div class="fl-code">CTS</div><div class="fl-time">13:10</div><div class="fl-name">신치토세</div></div>
+      </div></div>`;
+  }
+  if (n === 5) {
+    tl.innerHTML += `<div class="flight-block">
+      <div class="fl-airline">티웨이항공 TW264</div>
+      <div class="flight-row" style="margin-top:8px">
+        <div class="fl-city"><div class="fl-code">CTS</div><div class="fl-time">14:30</div><div class="fl-name">신치토세</div></div>
+        <div class="fl-mid"><div class="fl-duration">약 2시간 10분</div><div class="fl-bar"></div></div>
+        <div class="fl-city"><div class="fl-code">ICN</div><div class="fl-time">17:40</div><div class="fl-name">인천</div></div>
+      </div></div>`;
+  }
+  // 합류 안내바 (Day3, Day4)
+  if (n === 3) tl.innerHTML += `<div class="together-bar">⛳ 어른팀 오전 골프 → 15:30 오타루 합류 | 🚗 자녀팀 오전부터 오타루</div>`;
+  if (n === 4) tl.innerHTML += `<div class="together-bar">⛳ 어른팀 오전 골프 → 14:30 전원 노보리베츠 합류</div>`;
+  if (n === 1 || n === 5) tl.innerHTML += `<div class="split-bar">🟠 체크인 이후 두 가족 각자 자유시간</div>`;
+
+  d.items.forEach((item, i) => {
+    const el = document.createElement('div');
+    el.className = 'tl-item';
+    let detailHTML = `<div class="tl-desc">${item.desc}</div>`;
+    if (item.free) {
+      detailHTML += `<div class="free-box"><strong>자유시간 선택지</strong>${item.free.split('\n').join('<br>')}</div>`;
+    }
+    if (item.info) {
+      detailHTML += `<div class="info-box">${item.info.split('\n').join('<br>')}</div>`;
+    }
+    if (item.mapcode) {
+      detailHTML += `<div class="tl-mapcode">${item.mapcode.split('\n').join('<br>')}</div>`;
+    }
+    if (item.tip) detailHTML += `<div class="tl-tip">${item.tip}</div>`;
+    if (item.warn) detailHTML += `<div class="tl-warn">${item.warn}</div>`;
+
+    el.innerHTML = `
+      <div class="tl-summary" onclick="toggleTl(this)">
+        <div class="tl-time-badge ${item.type}">${item.time}</div>
+        <div class="tl-main">
+          <div class="tl-name">${item.name}</div>
+          <div class="tl-brief">${item.brief}</div>
+        </div>
+        <div class="tl-chevron">▼</div>
+      </div>
+      <div class="tl-detail">${detailHTML}</div>`;
+    tl.appendChild(el);
+  });
+
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('screen-day').classList.add('active');
+  document.getElementById('screen-day').scrollTop = 0;
+}
+
+function goBack() {
+  document.getElementById('screen-day').classList.remove('active');
+  document.getElementById('screen-home').classList.add('active');
+  document.getElementById('tab-home').classList.add('active');
+}
+
+function toggleTl(el) {
+  const item = el.closest('.tl-item');
+  item.classList.toggle('open');
+}
+
+function toggleCard(el) {
+  el.classList.toggle('open');
+}
+
+// Service Worker
+if ('serviceWorker' in navigator) {
+  const swCode = `
+const CACHE='sapporo-v2';
+self.addEventListener('install',e=>{e.waitUntil(caches.open(CACHE).then(c=>c.addAll([self.location.href])))});
+self.addEventListener('fetch',e=>{e.respondWith(caches.match(e.request).then(r=>r||fetch(e.request)))});
+`;
+  const blob = new Blob([swCode],{type:'application/javascript'});
+  navigator.serviceWorker.register(URL.createObjectURL(blob)).catch(()=>{});
+}
+</script>
+</body>
+</html>
