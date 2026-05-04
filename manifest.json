@@ -2,7 +2,7 @@
   "name": "삿포로 가족여행 일정",
   "short_name": "삿포로 여행",
   "description": "티웨이항공 삿포로 5일 가족여행 상세 일정",
-  "start_url": "/sapporo/",
+  "start_url": "/summer_sapporo/",
   "display": "standalone",
   "background_color": "#eaf4f9",
   "theme_color": "#1a7fa8",
@@ -21,5 +21,5 @@
       "purpose": "any"
     }
   ],
-  "scope": "/sapporo/"
+  "scope": "/summer_sapporo/"
 }
