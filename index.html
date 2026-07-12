@@ -37,6 +37,8 @@ html,body{height:100%;overflow:hidden;font-family:"Nanum Gothic",sans-serif;back
 .content{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch}
 .screen{display:none}
 .screen.on{display:block}
+#sc-day.on{display:flex;flex-direction:column;height:100%}
+.day-scroll{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch}
 
 /* ── 공통 카드 ── */
 .card{background:white;border-radius:14px;box-shadow:0 1px 8px rgba(176,96,128,.08);overflow:hidden}
@@ -262,12 +264,12 @@ html,body{height:100%;overflow:hidden;font-family:"Nanum Gothic",sans-serif;back
 </div>
 
 <!-- 일정 상세 -->
-<div class="screen" id="sc-day" style="display:flex;flex-direction:column;height:100%">
+<div class="screen" id="sc-day">
   <div class="d-hd" id="d-hd">
     <button class="back" onclick="goBack()">‹</button>
     <div><div class="d-title" id="d-title"></div><div class="d-sub" id="d-sub"></div></div>
   </div>
-  <div style="flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch">
+  <div class="day-scroll">
     <div class="d-body" id="d-body"></div>
   </div>
 </div>
@@ -402,7 +404,7 @@ html,body{height:100%;overflow:hidden;font-family:"Nanum Gothic",sans-serif;back
 </div>
 
 <script>
-function gmap(q){window.open('https://www.google.com/maps/search/?api=1&query='+encodeURIComponent(q),'_blank')}
+function gmap(q){location.href='https://www.google.com/maps/search/?api=1&query='+encodeURIComponent(q);}
 
 const DAYS={
   0:{title:'항공 정보',sub:'티웨이항공 TW263 / TW264',
@@ -538,7 +540,7 @@ const RESTS={
 let curR='sapporo', curC=null;
 
 function switchTab(t){
-  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('on'));
+  document.querySelectorAll('.screen').forEach(s=>{s.classList.remove('on');});
   document.querySelectorAll('.tb').forEach(b=>b.classList.remove('on'));
   const m={home:'sc-home',schedule:'sc-home',rest:'sc-rest',park:'sc-park',check:'sc-check'};
   const el=document.getElementById(m[t]||'sc-home');
@@ -555,7 +557,13 @@ function openDay(n){
   document.getElementById('d-body').innerHTML=d.body;
   document.querySelectorAll('.screen').forEach(s=>s.classList.remove('on'));
   document.querySelectorAll('.tb').forEach(b=>b.classList.remove('on'));
-  document.getElementById('sc-day').classList.add('on');
+  const sc=document.getElementById('sc-day');
+  sc.classList.add('on');
+  // 스크롤 최상단
+  const body=document.getElementById('d-body');
+  if(body)body.scrollTop=0;
+  const inner=sc.querySelector('[style*="overflow"]');
+  if(inner)inner.scrollTop=0;
 }
 
 function goBack(){
