@@ -70,6 +70,12 @@ html,body{height:100%;overflow:hidden;font-family:"Nanum Gothic",sans-serif;back
 .tc-detail{font-size:11px;color:#7a8a90;line-height:1.6;margin-top:3px}
 .tc-badge{background:#d8f5ee;color:#1a9080;font-size:9px;font-weight:800;padding:2px 8px;border-radius:4px;white-space:nowrap;flex-shrink:0;align-self:flex-start}
 .gc{background:white;border-radius:12px;padding:12px;box-shadow:0 1px 6px rgba(22,101,52,.1)}
+.gc-loc{font-size:11px;color:#6a8a6a;margin-bottom:8px}
+.gc-detail-row{display:flex;gap:6px;padding:4px 0;border-bottom:1px solid #f0fdf4;font-size:11px}
+.gc-detail-row:last-of-type{border-bottom:none}
+.gc-dl{color:#6a8a6a;flex-shrink:0;width:90px}
+.gc-dv{color:#2a1520;font-weight:700;flex:1}
+.gc-warn{background:#fff7ed;border-left:3px solid #f59e0b;border-radius:0 6px 6px 0;padding:6px 10px;font-size:10px;color:#92400e;margin:8px 0;line-height:1.5}
 .gc-top{display:flex;align-items:flex-start;justify-content:space-between;gap:8px;margin-bottom:6px}
 .gc-lbl{font-size:9px;font-weight:800;color:#166534;letter-spacing:1px;text-transform:uppercase}
 .gc-badge{background:#dcfce7;color:#166534;font-size:9px;font-weight:800;padding:2px 8px;border-radius:4px;white-space:nowrap;flex-shrink:0}
@@ -322,7 +328,7 @@ var DAY_DATA=[null,
    foods:[{n:'준페이 (점심)',d:'현지 인기 카레·덮밥 · 소량 매진',q:'준페이 비에이 カレー'},{n:'비에이 소프트아이스크림',d:'홋카이도 우유 · 드라이브 중 필수',q:'비에이 소프트아이스크림'},{n:'다루마 5.5점 (저녁 오픈런)',d:'16:30 번호표 → 17:00 입장 · 현금만',q:'다루마 징기스칸 스스키노'}]},
   {title:'Day 3 · 월요일',sub:'썬파크 골프 · 오타루 추천 장소 & 식당',
    tMethod:'JR 쾌속 에어포트 (오타루)',tDetail:'삿포로역 → 오타루역 약 35분<br>8월 성수기 도로보다 JR 추천<br>오타루 내부 도보 이동 가능',tBadge:'¥750/편도',
-   golf:{name:'썬파크 삿포로 (サンパーク札幌)',loc:'기타히로시마시 · 공항에서 약 35분',info:'27홀 Par 108 · 평탄 광활한 페어웨이<br>PGM 운영 · 연못 배치로 전략적 코스<br>카트 진입 가능 (잔디 상태에 따라 제한)',tags:['27홀 Par108','공항 35분','카트 진입 가능'],q:'サンパーク札幌ゴルフコース 기타히로시마'},
+   golf:{name:'썬파크 삿포로 (サンパーク札幌)',loc:'기타히로시마시 〒061-1153',resNo:'260803-012A-1015293-5084',teeoff:'07:35 웨스트 → 이스트 코스',fee:'¥8,500/인 (카트 포함) · 2~3인 추가요금 있음',locker:'¥440/개',drive:'호텔에서 고속도로 없이 약 45분',tel:'0113-72-6370',cancel:'7월 27일 자정 (이후 ¥4,000/팀 위약금)',tags:['27홀 Par108','공항 35분','셀프 카트'],q:'サンパーク札幌ゴルフコース 기타히로시마'},
    spots:[{n:'오타루 운하',d:'석조 창고 · 가스등 야경 · 크루즈 ¥1,800',q:'오타루 운하 산책로',m:1},{n:'오르골당',d:'메이지 시대 창고 개조 · 입장 무료',q:'오타루 오르골당 本館',m:1},{n:'사카이마치 거리',d:'기념품 · 유리공예 · 르타오 본점',q:'오타루 사카이마치 거리',m:1},{n:'삼각시장',d:'오타루역 앞 · 카이센동 · 7:00~17:00',q:'오타루 삼각시장',m:1}],
    foods:[{n:'이세즈시 (미슐랭 1스타)',d:'오마카세 니기리 · ¥6,000~10,000 · 예약 권장',q:'이세즈시 いせ鮨 오타루'},{n:'르타오 본점 카페',d:'이중주 치즈케이크 · 2층 바다 전망',q:'LeTAO 르타오 오타루 본점'},{n:'우미 하치쿄 (저녁 이자카야)',d:'연어알 츠코메시 · 직원이 앞에서 붓는 명물',q:'우미하치쿄 삿포로 스스키노'},
    {n:'⚠️ 맥주박물관',d:'월요일 정기 휴관 · 이번 여행 방문 불가',q:'삿포로 맥주박물관'}],
@@ -353,7 +359,16 @@ function buildFoodRow(f){
 function buildGolfCard(g){
   var mq='https://www.google.com/maps/search/?api=1&query='+encodeURIComponent(g.q);
   var tags=g.tags.map(function(t){return '<span class="gc-tag">'+t+'</span>';}).join('');
-  return '<div class="gc"><div class="gc-top"><div class="gc-lbl">부모님 골프 일정</div><a class="gc-badge" href="'+mq+'">지도 ›</a></div><div class="gc-name">'+g.name+'</div><div class="gc-text">'+g.loc+'<br>'+g.info+'</div><div class="gc-tags">'+tags+'</div></div>';
+  var det='';
+  if(g.resNo) det+='<div class="gc-detail-row"><span class="gc-dl">예약번호</span><span class="gc-dv">'+g.resNo+'</span></div>';
+  if(g.teeoff) det+='<div class="gc-detail-row"><span class="gc-dl">티오프</span><span class="gc-dv">'+g.teeoff+'</span></div>';
+  if(g.fee) det+='<div class="gc-detail-row"><span class="gc-dl">그린피</span><span class="gc-dv">'+g.fee+'</span></div>';
+  if(g.locker) det+='<div class="gc-detail-row"><span class="gc-dl">락커</span><span class="gc-dv">'+g.locker+'</span></div>';
+  if(g.coupon) det+='<div class="gc-detail-row"><span class="gc-dl">식사권</span><span class="gc-dv">'+g.coupon+'</span></div>';
+  if(g.drive) det+='<div class="gc-detail-row"><span class="gc-dl">호텔 → 골프장</span><span class="gc-dv">'+g.drive+'</span></div>';
+  if(g.tel) det+='<div class="gc-detail-row"><span class="gc-dl">전화</span><span class="gc-dv">'+g.tel+'</span></div>';
+  var warn=g.cancel?'<div class="gc-warn">⚠️ 취소 기한: '+g.cancel+'</div>':'';
+  return '<div class="gc"><div class="gc-top"><div class="gc-lbl">부모님 골프 일정</div><a class="gc-badge" href="'+mq+'">지도 ›</a></div><div class="gc-name">'+g.name+'</div><div class="gc-loc">'+g.loc+'</div>'+det+warn+'<div class="gc-tags">'+tags+'</div></div>';
 }
 
 function openDay(n){
@@ -406,14 +421,17 @@ var RESTS={
       {name:'동구리 베이커리',menu:'치쿠와빵 · 크림빵',price:'¥150~250',hours:'08:00~19:00',note:'오도리 공원 앞 · 가성비',badge:'현장 방문',bt:'ok',q:'どんぐり 베이커리 삿포로'}
     ]},
     genghis:{name:'징기스칸',items:[
-      {name:'다루마 5.5점',menu:'마톤 징기스칸',price:'¥2,000~3,000',hours:'17:00~03:00',note:'예약불가 · 현금만 · 번호표 16:30~',badge:'예약불가',bt:'warn',q:'다루마 징기스칸 스스키노'}
+      {name:'다루마 (だるま) 5.5점',menu:'마톤 징기스칸',price:'¥2,000~3,000',hours:'17:00~03:00',note:'예약불가 · 현금만 · 연기 강함 · 카운터석만',badge:'예약불가',bt:'warn',q:'다루마 징기스칸 스스키노'},
+      {name:'히게노우시 (ひげのうし)',menu:'마톤 징기스칸',price:'¥2,000~3,000',hours:'17:00~23:00',note:'예약 가능 ✓ · 테이블석 · 연기 비교적 적음',badge:'예약 가능',bt:'ok',q:'ひげのうし 스스키노 삿포로 징기스칸'}
     ]},
     sushi:{name:'스시 · 해산물',items:[
       {name:'네무로 하나마루',menu:'성게·연어·관자 초밥',price:'¥1,500~3,000',hours:'11:00~22:00',note:'오픈 직후 방문 · JR타워 6F',badge:'웨이팅 필수',bt:'warn',q:'네무로하나마루 삿포로'},
+      {name:'트리톤 (回転寿し トリトン)',menu:'홋카이도 제철 초밥',price:'¥1,200~2,500',hours:'11:00~21:00',note:'PPT 추천 · 가성비 좋음 · 항상 붐빔 · 한국어 홈피',badge:'웨이팅 있음',bt:'need',q:'回転寿しトリトン 삿포로'},
       {name:'카니혼케',menu:'홋카이도 게 코스 요리',price:'¥5,000~15,000',hours:'11:00~22:00',note:'예약 권장',badge:'예약 권장',bt:'need',q:'카니혼케 삿포로'},
       {name:'우미 하치쿄',menu:'연어알 츠코메시',price:'¥2,000~4,000',hours:'17:00~23:00',note:'직원이 앞에서 연어알 붓는 명물',badge:'현장 방문',bt:'ok',q:'우미하치쿄 삿포로 스스키노'}
     ]},
     ramen:{name:'소바 · 라멘',items:[
+      {name:'아지노 산페이 (味の三平)',menu:'삿포로 원조 미소라멘',price:'¥900~1,300',hours:'11:00~18:30 (월 휴무)',note:'PPT 추천 · 건물 4층 · 찾기 어려움 · 월요일 휴무',badge:'현장 방문',bt:'ok',q:'味の三平 삿포로 미소라멘'},
       {name:'라멘 신겐 (信玄)',menu:'콘버터 미소라멘',price:'¥1,000~1,400',hours:'11:00~01:00',note:'삿포로 3대 라멘 · 극악 웨이팅 · 오전 방문 추천',badge:'웨이팅 필수',bt:'warn',q:'ラーメン信玄 삿포로 스스키노'},
       {name:'테시카가라멘 (弟子屈)',menu:'콘버터 미소라멘',price:'¥900~1,300',hours:'11:00~02:00',note:'라멘 요코초 내 · 콘버터 시그니처 · 웨이팅 비교적 짧음',badge:'현장 방문',bt:'ok',q:'弟子屈ラーメン 삿포로 스스키노'},
       {name:'라멘 요코초',menu:'삿포로 미소라멘 · 콘버터 추가 가능',price:'¥900~1,200',hours:'11:00~03:00',note:'1960년대 라멘 골목 · 여러 가게 중 선택',badge:'현장 방문',bt:'ok',q:'라멘요코초 삿포로 스스키노'},
@@ -539,7 +557,7 @@ function buildCheckList(){
   var list=document.getElementById('ck-list');
   if(list.children.length>0)return;
   var checks=[
-    {icon:'⛳',name:'골프장 예약 2회',sub:'썬파크(Day 3) + 니돔 클래식(Day 4)',items:['썬파크 삿포로: GDO 또는 현지 예약 사이트 이용.','니돔 클래식: nidomcc.jp 또는 Rakuten GORA에서 예약. 한국인 스태프 상주.','국제면허증 2명분 필참. 오전 조 티타임 우선 요청.']},
+    {icon:'⛳',name:'골프장 취소 기한 — 7월 27일 자정',sub:'두 골프장 모두 동일 · 이후 위약금 발생',items:['썬파크: 7월 27일 0:00 이후 취소 시 ¥4,000/팀 위약금.','니돔 클래식: 7월 27일 0:00 이후 취소 시 그린피의 30~100% 위약금.','예약번호 썬파크 260803-012A-1015293-5084 / 니돔 2410453']},
     {icon:'🚗',name:'렌트카 예약',sub:'공항 수령 · Day 5 공항 반납',items:['신치토세 공항 수령 가능 렌트카사 예약. 토요타 렌터카 / 닛산 렌터카 추천.','국제면허증 2명 모두 필참. ETC 카드 신청 또는 현금 준비.']},
     {icon:'🚆',name:'JR 티켓',sub:'오타루 · 노보리베츠 이동',items:['오타루(Day 3): JR 쾌속 에어포트 ¥750/편도 — 현장 발권 가능.','노보리베츠(Day 4): JR 특급 호쿠토/스즈란 ¥5,410 지정석 — 사전 예약 권장.']},
     {icon:'💴',name:'현금 준비 (엔화)',sub:'다루마 · GARAKU 현금만',items:['다루마 징기스칸 · GARAKU 스프카레 현금 결제만 가능.','1인 1일 식비 ¥5,000~8,000 예상. 충분히 환전 권장.']},
