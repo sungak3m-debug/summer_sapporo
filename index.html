@@ -33,7 +33,6 @@ html,body{height:100%;overflow:hidden;font-family:"Nanum Gothic",sans-serif;back
 .screen.on{display:block}
 #sc-day.on{display:flex;flex-direction:column;height:100%}
 .day-scroll{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch}
-.card{background:white;border-radius:14px;box-shadow:0 1px 8px rgba(176,96,128,.08);overflow:hidden}
 .sec-lbl{font-size:10px;font-weight:800;letter-spacing:1.5px;color:#b09098;padding:14px 16px 7px;text-transform:uppercase}
 .home-hero{background:linear-gradient(150deg,#b06080,#c890a8);color:white;padding:20px 16px 18px}
 .home-hero h2{font-size:19px;font-weight:800;margin-bottom:3px}
@@ -69,20 +68,52 @@ html,body{height:100%;overflow:hidden;font-family:"Nanum Gothic",sans-serif;back
 .tc-row{display:flex;align-items:center;justify-content:space-between;gap:10px}
 .tc-method{font-size:12px;font-weight:800;color:#2a1520}
 .tc-detail{font-size:11px;color:#7a8a90;line-height:1.6;margin-top:3px}
-.tc-badge{background:#d8f5ee;color:#1a9080;font-size:9px;font-weight:800;padding:2px 8px;border-radius:4px;white-space:nowrap;flex-shrink:0}
-.gc{background:white;border-radius:12px;border-left:4px solid #166534;padding:12px;box-shadow:0 1px 6px rgba(22,101,52,.1)}
-.gc-lbl{font-size:9px;font-weight:800;color:#166534;letter-spacing:1px;text-transform:uppercase;margin-bottom:6px}
-.gc-text{font-size:12px;color:#2a4a35;line-height:1.7}
+.tc-badge{background:#d8f5ee;color:#1a9080;font-size:9px;font-weight:800;padding:2px 8px;border-radius:4px;white-space:nowrap;flex-shrink:0;align-self:flex-start}
+.gc{background:white;border-radius:12px;padding:12px;box-shadow:0 1px 6px rgba(22,101,52,.1)}
+.gc-top{display:flex;align-items:flex-start;justify-content:space-between;gap:8px;margin-bottom:6px}
+.gc-lbl{font-size:9px;font-weight:800;color:#166534;letter-spacing:1px;text-transform:uppercase}
+.gc-badge{background:#dcfce7;color:#166534;font-size:9px;font-weight:800;padding:2px 8px;border-radius:4px;white-space:nowrap;flex-shrink:0}
+.gc-name{font-size:13px;font-weight:800;color:#2a1520;margin-bottom:4px}
+.gc-text{font-size:11px;color:#3a5a3a;line-height:1.7}
+.gc-tags{display:flex;gap:5px;flex-wrap:wrap;margin-top:8px}
+.gc-tag{background:#f0fdf4;color:#166534;font-size:9px;font-weight:700;padding:2px 8px;border-radius:8px;border:1px solid #bbf7d0}
 .rec{background:white;border-radius:12px;padding:12px;box-shadow:0 1px 6px rgba(176,96,128,.07)}
 .rec-ttl{font-size:10px;font-weight:800;color:#b09098;letter-spacing:1px;text-transform:uppercase;margin-bottom:8px}
-.pl{display:flex;align-items:flex-start;gap:10px;padding:8px 0;border-bottom:1px solid #faeef6}
-.pl:last-child{border-bottom:none;padding-bottom:0}
+/* 관광지 아코디언 */
+.pl{display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid #faeef6;text-decoration:none}
+.pl:last-child{border-bottom:none;padding-bottom:0}.pl-map{font-size:10px;color:#2eb8a0;font-weight:700;white-space:nowrap;flex-shrink:0}.pl-main{flex:1;min-width:0}
 .pl-dot{width:7px;height:7px;border-radius:50%;background:#b06080;flex-shrink:0;margin-top:5px}
 .pl-dot.mint{background:#2eb8a0}
-.pl-info{flex:1;min-width:0}
-.pl-name{font-size:12px;font-weight:800;color:#2a1520;margin-bottom:2px}
-.pl-desc{font-size:10px;color:#b09098;line-height:1.5}
-.pl-map{font-size:10px;color:#2eb8a0;font-weight:700;white-space:nowrap;flex-shrink:0;align-self:center}
+
+
+.pl-name{font-size:12px;font-weight:800;color:#2a1520}
+.pl-desc{font-size:10px;color:#b09098;line-height:1.5;margin-top:2px}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* 식당 */
+.fd{display:flex;align-items:flex-start;gap:10px;padding:8px 0;border-bottom:1px solid #faeef6}
+.fd:last-child{border-bottom:none;padding-bottom:0}
+.fd-dot{width:7px;height:7px;border-radius:50%;background:#b06080;flex-shrink:0;margin-top:5px}
+.fd-info{flex:1;min-width:0}
+.fd-name{font-size:12px;font-weight:800;color:#2a1520;margin-bottom:2px}
+.fd-desc{font-size:10px;color:#b09098;line-height:1.5}
+.fd-map{font-size:10px;color:#2eb8a0;font-weight:700;text-decoration:none;white-space:nowrap;flex-shrink:0;align-self:center}
+/* 비행편 */
 .fl-card{background:linear-gradient(135deg,#b06080,#c890a8);color:white;border-radius:12px;padding:13px}
 .fl-airline{font-size:9px;opacity:.7;margin-bottom:6px}
 .fl-row{display:flex;align-items:center;gap:6px}
@@ -94,6 +125,7 @@ html,body{height:100%;overflow:hidden;font-family:"Nanum Gothic",sans-serif;back
 .fl-dur{font-size:9px;opacity:.7}
 .fl-bar{width:100%;height:1px;background:rgba(255,255,255,.3);position:relative}
 .fl-bar::after{content:">";position:absolute;right:-4px;top:-7px;font-size:10px}
+/* 맛집 탭 */
 .rest-screen{padding:0 0 24px}
 .region-row{display:flex;gap:7px;padding:12px 16px 10px;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}
 .region-row::-webkit-scrollbar{display:none}
@@ -122,19 +154,19 @@ html,body{height:100%;overflow:hidden;font-family:"Nanum Gothic",sans-serif;back
 .rc-price{font-size:11px;color:#b06080;font-weight:800}
 .rc-meta{font-size:10px;color:#b09098;line-height:1.6;margin-bottom:4px}
 .rc-note{font-size:10px;color:#d04040;margin-bottom:8px;line-height:1.5}
-.map-link{display:block;text-align:center;background:#fdf0f5;border-radius:8px;padding:7px;font-size:11px;font-weight:800;color:#b06080;text-decoration:none;margin-top:2px}
-.map-link-mint{background:#d8f5ee;color:#1a9080}
-.park-list{padding:0 16px 24px;display:flex;flex-direction:column;gap:8px}
-.pk{background:white;border-radius:13px;box-shadow:0 1px 6px rgba(176,96,128,.08);overflow:hidden}
-.pk-hd{display:flex;align-items:center;gap:11px;padding:12px;cursor:pointer}
-.pk-icon{font-size:22px;width:38px;text-align:center;flex-shrink:0}
-.pk-info{flex:1}
-.pk-name{font-size:12px;font-weight:800;color:#2a1520}
-.pk-sub{font-size:10px;color:#b09098;margin-top:2px}
-.pk-chev{color:#e0c0cc;font-size:13px;transition:transform .25s}
-.pk.open .pk-chev{transform:rotate(180deg)}
-.pk-detail{display:none;padding:0 12px 12px;border-top:1px solid #faeef6}
-.pk.open .pk-detail{display:block}
+.map-link{display:block;text-align:center;background:#fdf0f5;border-radius:8px;padding:7px;font-size:11px;font-weight:800;color:#b06080;text-decoration:none}
+/* 주차·준비 */
+.park-list,.ck-list{padding:0 16px 24px;display:flex;flex-direction:column;gap:8px}
+.pk,.ck{background:white;border-radius:13px;box-shadow:0 1px 6px rgba(176,96,128,.08);overflow:hidden}
+.pk-hd,.ck-hd{display:flex;align-items:center;gap:11px;padding:12px;cursor:pointer}
+.pk-icon,.ck-icon{font-size:22px;width:38px;text-align:center;flex-shrink:0}
+.pk-info,.ck-info{flex:1}
+.pk-name,.ck-name{font-size:12px;font-weight:800;color:#2a1520}
+.pk-sub,.ck-sub{font-size:10px;color:#b09098;margin-top:2px}
+.pk-chev,.ck-chev{color:#e0c0cc;font-size:13px;transition:transform .25s}
+.pk.open .pk-chev,.ck.open .ck-chev{transform:rotate(180deg)}
+.pk-detail,.ck-detail{display:none;padding:0 12px 12px;border-top:1px solid #faeef6}
+.pk.open .pk-detail,.ck.open .ck-detail{display:block}
 .pk-row{padding:7px 0;border-bottom:1px solid #fdf5f8;font-size:11px;color:#5a4050;line-height:1.7}
 .pk-row:last-child{border-bottom:none}
 .pk-row b{color:#2a1520;display:block;margin-bottom:2px}
@@ -142,25 +174,14 @@ html,body{height:100%;overflow:hidden;font-family:"Nanum Gothic",sans-serif;back
 .ptag.free{background:#dcfce7;color:#166534}
 .ptag.paid{background:#fef0f0;color:#d04040}
 .ptag.chk{background:#fffbea;color:#c88000}
-.ck-list{padding:0 16px 24px;display:flex;flex-direction:column;gap:8px}
-.ck{background:white;border-radius:13px;box-shadow:0 1px 6px rgba(176,96,128,.08);overflow:hidden}
-.ck-hd{display:flex;align-items:center;gap:11px;padding:12px;cursor:pointer}
-.ck-icon{font-size:22px;width:38px;text-align:center;flex-shrink:0}
-.ck-info{flex:1}
-.ck-name{font-size:12px;font-weight:800;color:#2a1520}
-.ck-sub{font-size:10px;color:#b09098;margin-top:2px}
-.ck-chev{color:#e0c0cc;font-size:13px;transition:transform .25s}
-.ck.open .ck-chev{transform:rotate(180deg)}
-.ck-detail{display:none;padding:0 12px 12px;border-top:1px solid #faeef6}
-.ck.open .ck-detail{display:block}
 .ck-item{display:flex;align-items:flex-start;gap:8px;padding:6px 0;border-bottom:1px solid #fdf5f8;font-size:11px;color:#5a4050;line-height:1.6}
 .ck-item:last-child{border-bottom:none}
 .ck-dot{width:6px;height:6px;border-radius:50%;background:#b06080;flex-shrink:0;margin-top:4px}
+.notice-bar{background:#fff8e6;border-left:3px solid #f59e0b;border-radius:0 8px 8px 0;padding:8px 10px;font-size:11px;color:#92400e;line-height:1.6;margin-top:8px}
 </style>
 </head>
 <body>
 <div id="app">
-
 <div class="app-hd">
   <div class="hd-inner">
     <div class="hd-left">
@@ -170,9 +191,7 @@ html,body{height:100%;overflow:hidden;font-family:"Nanum Gothic",sans-serif;back
     <div class="hd-badge">8월 22~26°C</div>
   </div>
 </div>
-
 <div class="content">
-
 <div class="screen on" id="sc-home">
   <div class="home-hero">
     <h2>삿포로 가족여행</h2>
@@ -182,7 +201,6 @@ html,body{height:100%;overflow:hidden;font-family:"Nanum Gothic",sans-serif;back
       <span class="hchip">비에이</span>
       <span class="hchip">오타루</span>
       <span class="hchip">노보리베츠</span>
-      <span class="hchip">맥주박물관</span>
     </div>
   </div>
   <div class="sec-lbl">일별 일정</div>
@@ -190,15 +208,15 @@ html,body{height:100%;overflow:hidden;font-family:"Nanum Gothic",sans-serif;back
     <div class="dc" id="d1c">
       <div class="dc-hd">
         <div class="dc-num"><div class="dc-n">1</div><div class="dc-d">토요일</div></div>
-        <div class="dc-info"><div class="dc-title">입국 · 체크인 · 각자 자유</div><div class="dc-sub">TW263 10:20 → 13:10 · 이비스 스타일 삿포로</div></div>
+        <div class="dc-info"><div class="dc-title">입국 · 렌트카 수령 · 각자 자유</div><div class="dc-sub">TW263 10:20 → 13:10 · 이비스 스타일 삿포로</div></div>
         <div class="dc-arr">›</div>
       </div>
-      <div class="dc-tags"><span class="dtag">입국</span><span class="dtag mint">체크인</span><span class="dtag gray">자유시간</span></div>
+      <div class="dc-tags"><span class="dtag">입국</span><span class="dtag mint">렌트카 수령</span><span class="dtag gray">자유시간</span></div>
     </div>
     <div class="dc" id="d2c">
       <div class="dc-hd">
         <div class="dc-num"><div class="dc-n">2</div><div class="dc-d">일요일</div></div>
-        <div class="dc-info"><div class="dc-title">비에이 렌트카 드라이브 + 징기스칸</div><div class="dc-sub">패치워크 로드 · 청의 연못 · 렌트카 1일</div></div>
+        <div class="dc-info"><div class="dc-title">비에이 렌트카 드라이브 + 징기스칸</div><div class="dc-sub">패치워크 로드 · 청의 연못 · 다루마 오픈런</div></div>
         <div class="dc-arr">›</div>
       </div>
       <div class="dc-tags"><span class="dtag">비에이</span><span class="dtag">청의 연못</span><span class="dtag">징기스칸</span></div>
@@ -206,23 +224,23 @@ html,body{height:100%;overflow:hidden;font-family:"Nanum Gothic",sans-serif;back
     <div class="dc" id="d3c">
       <div class="dc-hd">
         <div class="dc-num"><div class="dc-n">3</div><div class="dc-d">월요일</div></div>
-        <div class="dc-info"><div class="dc-title">골프 + 오타루 JR 당일치기 + 맥주박물관</div><div class="dc-sub">JR 35분 · 오타루 운하 · 맥주박물관 저녁</div></div>
+        <div class="dc-info"><div class="dc-title">썬파크 골프 + 오타루 JR 당일치기</div><div class="dc-sub">썬파크 골프 · 오타루 · 추천 장소 & 식당</div></div>
         <div class="dc-arr">›</div>
       </div>
-      <div class="dc-tags"><span class="dtag green">골프</span><span class="dtag">오타루 JR</span><span class="dtag">맥주박물관</span></div>
+      <div class="dc-tags"><span class="dtag green">썬파크 골프</span><span class="dtag">오타루 JR</span><span class="dtag">이자카야</span></div>
     </div>
     <div class="dc" id="d4c">
       <div class="dc-hd">
         <div class="dc-num"><div class="dc-n">4</div><div class="dc-d">화요일</div></div>
-        <div class="dc-info"><div class="dc-title">골프 + 노보리베츠 JR 당일치기 + 스프카레</div><div class="dc-sub">JR 특급 1시간 14분 · 지옥계곡 · 스프카레</div></div>
+        <div class="dc-info"><div class="dc-title">니돔 클래식 골프 + 노보리베츠 JR + 스프카레</div><div class="dc-sub">니돔 클래식 골프 · 맥주박물관 · 추천 장소 & 식당</div></div>
         <div class="dc-arr">›</div>
       </div>
-      <div class="dc-tags"><span class="dtag green">골프</span><span class="dtag">노보리베츠 JR</span><span class="dtag">스프카레</span></div>
+      <div class="dc-tags"><span class="dtag green">니돔 클래식</span><span class="dtag">맥주박물관</span><span class="dtag">스프카레</span></div>
     </div>
     <div class="dc" id="d5c">
       <div class="dc-hd">
         <div class="dc-num"><div class="dc-n">5</div><div class="dc-d">수요일</div></div>
-        <div class="dc-info"><div class="dc-title">자유시간 · 귀국</div><div class="dc-sub">TW264 14:30 출발 · 12:30 공항 집결</div></div>
+        <div class="dc-info"><div class="dc-title">자유시간 · 렌트카 반납 · 귀국</div><div class="dc-sub">TW264 14:30 출발 · 12:30 공항 집결</div></div>
         <div class="dc-arr">›</div>
       </div>
       <div class="dc-tags"><span class="dtag gray">자유시간</span><span class="dtag">시로이코이비토</span><span class="dtag mint">귀국</span></div>
@@ -237,17 +255,13 @@ html,body{height:100%;overflow:hidden;font-family:"Nanum Gothic",sans-serif;back
   </div>
   <div style="height:8px"></div>
 </div>
-
 <div class="screen" id="sc-day">
   <div class="d-hd">
     <button class="back" id="back-btn">‹</button>
     <div><div class="d-title" id="d-title"></div><div class="d-sub" id="d-sub"></div></div>
   </div>
-  <div class="day-scroll">
-    <div class="d-body" id="d-body"></div>
-  </div>
+  <div class="day-scroll"><div class="d-body" id="d-body"></div></div>
 </div>
-
 <div class="screen rest-screen" id="sc-rest">
   <div class="sec-lbl" style="padding-top:12px">지역 선택</div>
   <div class="region-row" id="region-row"></div>
@@ -256,19 +270,15 @@ html,body{height:100%;overflow:hidden;font-family:"Nanum Gothic",sans-serif;back
   <div class="sec-lbl" id="rest-lbl" style="display:none"></div>
   <div class="rest-list-wrap" id="rest-list"></div>
 </div>
-
 <div class="screen" id="sc-park">
   <div class="sec-lbl" style="padding-top:12px">장소별 주차 & 입장료</div>
   <div class="park-list" id="park-list"></div>
 </div>
-
 <div class="screen" id="sc-check">
   <div class="sec-lbl" style="padding-top:12px">여행 준비 체크리스트</div>
   <div class="ck-list" id="ck-list"></div>
 </div>
-
 </div>
-
 <div class="tab-bar">
   <button class="tb on" id="tb-home"><div class="tb-icon">⌂</div><div>홈</div></button>
   <button class="tb" id="tb-schedule"><div class="tb-icon">◷</div><div>일정</div></button>
@@ -276,66 +286,74 @@ html,body{height:100%;overflow:hidden;font-family:"Nanum Gothic",sans-serif;back
   <button class="tb" id="tb-park"><div class="tb-icon">P</div><div>주차</div></button>
   <button class="tb" id="tb-check"><div class="tb-icon">✓</div><div>준비</div></button>
 </div>
-
 </div>
-
 <script>
-function gmap(q){location.href='https://www.google.com/maps/search/?api=1&query='+encodeURIComponent(q);}
-
 function showScreen(id){
   document.querySelectorAll('.screen').forEach(function(s){s.classList.remove('on');});
   var el=document.getElementById(id);
   if(el){el.classList.add('on');el.scrollTop=0;}
 }
-
 function switchTab(t){
-  var map={home:'sc-home',rest:'sc-rest',park:'sc-park',check:'sc-check'};
-  showScreen(map[t]||'sc-home');
+  var m={home:'sc-home',rest:'sc-rest',park:'sc-park',check:'sc-check'};
+  showScreen(m[t]||'sc-home');
   document.querySelectorAll('.tb').forEach(function(b){b.classList.remove('on');});
   var tb=document.getElementById('tb-'+t);
   if(tb)tb.classList.add('on');
   if(t==='rest')renderRegionRow();
+  if(t==='park')buildParkList();
+  if(t==='check')buildCheckList();
 }
 
+// 관광지 사진카드 색상 및 정보
+
+var FL0='<div class="fl-card"><div class="fl-airline">티웨이항공 TW263 출국</div><div class="fl-row"><div class="fl-city"><div class="fl-code">ICN</div><div class="fl-time">10:20</div><div class="fl-name">인천</div></div><div class="fl-mid"><div class="fl-dur">약 2시간 50분</div><div class="fl-bar"></div></div><div class="fl-city"><div class="fl-code">CTS</div><div class="fl-time">13:10</div><div class="fl-name">신치토세</div></div></div></div>';
+var FL5='<div class="fl-card"><div class="fl-airline">티웨이항공 TW264 귀국</div><div class="fl-row"><div class="fl-city"><div class="fl-code">CTS</div><div class="fl-time">14:30</div><div class="fl-name">신치토세</div></div><div class="fl-mid"><div class="fl-dur">약 2시간 10분</div><div class="fl-bar"></div></div><div class="fl-city"><div class="fl-code">ICN</div><div class="fl-time">17:40</div><div class="fl-name">인천</div></div></div></div>';
+
 var DAY_DATA=[null,
-  {title:'Day 1 · 토요일',sub:'TW263 10:20 → 13:10 · 체크인 후 각자 자유',
-   tMethod:'공항버스 또는 JR 쾌속',tDetail:'신치토세 → 삿포로역 약 40분<br>입국심사 + 수하물 (약 1~1.5시간)<br>→ 이비스 스타일 삿포로 체크인',tBadge:'각자 자유',
+  {title:'Day 1 · 토요일',sub:'TW263 10:20 입국 · 렌트카 수령 · 각자 자유',
+   tMethod:'신치토세 공항 렌트카 수령',tDetail:'입국심사 + 수하물 수령 약 1~1.5시간<br>렌트카 카운터 수령 → 삿포로 이비스 직행<br>호텔까지 약 50분 · 체크인 후 각자 자유',tBadge:'약 50분',
    golf:null,
    spots:[{n:'오도리 공원',d:'삿포로 TV타워 · 저녁 분위기',q:'오도리 공원 삿포로',m:1},{n:'모리히코 카페',d:'1991년 창업 삿포로 로컬 카페',q:'모리히코 MORIHICO 삿포로',m:1}],
-   foods:[{n:'라멘 요코초',d:'삿포로 미소라멘 · 1인 약 ¥900~1,200',q:'라멘 요코초 삿포로 스스키노'},{n:'네무로 하나마루',d:'회전초밥 · JR타워 6F · 웨이팅 예상',q:'네무로 하나마루 삿포로'}]
-  },
+   foods:[{n:'라멘 신겐 (콘버터라멘)',d:'삿포로 3대 라멘 · 오전 방문 추천 · 웨이팅 각오',q:'ラーメン信玄 삿포로 스스키노'},{n:'테시카가라멘 (콘버터라멘)',d:'라멘 요코초 내 · 웨이팅 비교적 짧음',q:'弟子屈ラーメン 삿포로 스스키노'},{n:'라멘 요코초',d:'삿포로 미소라멘 · 1인 약 ¥900~1,200',q:'라멘 요코초 삿포로 스스키노'},{n:'네무로 하나마루',d:'회전초밥 · JR타워 6F',q:'네무로 하나마루 삿포로'}]},
   {title:'Day 2 · 일요일',sub:'비에이 렌트카 드라이브 · 저녁 징기스칸 오픈런',
-   tMethod:'렌트카 1대 이용 (필수)',tDetail:'비에이 내 대중교통 없음<br>삿포로 → 비에이 약 2시간 30분<br>고속도로(道央道) 이용',tBadge:'렌트카 필수',
+   tMethod:'렌트카 1대 이용 (비에이 필수)',tDetail:'비에이 내 대중교통 없음<br>삿포로 → 비에이 약 2시간 30분<br>고속도로(道央道) 이용',tBadge:'렌트카 필수',
    golf:null,
    spots:[{n:'켄과 메리의 나무',d:'패치워크 로드 · 맵코드 349 188 841',q:'켄과 메리의 나무 비에이',m:1},{n:'세븐스타 나무',d:'맵코드 349 218 413',q:'세븐스타 나무 비에이',m:1},{n:'사계채의 언덕',d:'8월 꽃밭 절정 · 입장 ¥500',q:'사계채의 언덕 四季彩の丘 비에이',m:1},{n:'흰수염 폭포',d:'청의 연못 바로 옆',q:'흰수염 폭포 비에이 시로가네',m:1},{n:'청의 연못',d:'코발트블루 · 입장 무료 · 맵코드 796 182 764',q:'청의 연못 비에이 青い池',m:1}],
-   foods:[{n:'준페이',d:'현지 인기 카레·덮밥 · 소량 매진',q:'준페이 비에이 カレー'},{n:'비에이 소프트아이스크림',d:'홋카이도 우유 · 드라이브 중 필수',q:'비에이 소프트아이스크림'},{n:'다루마 5.5점 (저녁 오픈런)',d:'16:30 번호표 → 17:00 입장 · 현금만',q:'다루마 징기스칸 스스키노'}]
-  },
-  {title:'Day 3 · 월요일',sub:'골프 + 오타루 JR 당일치기 + 맥주박물관',
-   tMethod:'JR 쾌속 에어포트',tDetail:'삿포로역 → 오타루역 약 35분<br>8월 성수기 도로보다 JR 추천<br>오타루 내부 도보 이동 가능',tBadge:'¥750/편도',
-   golf:'07:00 골프장 출발 (삿포로 국제 CC / 고마이 GC)<br>14:00까지 라운딩 종료 목표<br>GDO / Rakuten Golf 사전 예약 필수',
+   foods:[{n:'준페이 (점심)',d:'현지 인기 카레·덮밥 · 소량 매진',q:'준페이 비에이 カレー'},{n:'비에이 소프트아이스크림',d:'홋카이도 우유 · 드라이브 중 필수',q:'비에이 소프트아이스크림'},{n:'다루마 5.5점 (저녁 오픈런)',d:'16:30 번호표 → 17:00 입장 · 현금만',q:'다루마 징기스칸 스스키노'}]},
+  {title:'Day 3 · 월요일',sub:'썬파크 골프 · 오타루 추천 장소 & 식당',
+   tMethod:'JR 쾌속 에어포트 (오타루)',tDetail:'삿포로역 → 오타루역 약 35분<br>8월 성수기 도로보다 JR 추천<br>오타루 내부 도보 이동 가능',tBadge:'¥750/편도',
+   golf:{name:'썬파크 삿포로 (サンパーク札幌)',loc:'기타히로시마시 · 공항에서 약 35분',info:'27홀 Par 108 · 평탄 광활한 페어웨이<br>PGM 운영 · 연못 배치로 전략적 코스<br>카트 진입 가능 (잔디 상태에 따라 제한)',tags:['27홀 Par108','공항 35분','카트 진입 가능'],q:'サンパーク札幌ゴルフコース 기타히로시마'},
    spots:[{n:'오타루 운하',d:'석조 창고 · 가스등 야경 · 크루즈 ¥1,800',q:'오타루 운하 산책로',m:1},{n:'오르골당',d:'메이지 시대 창고 개조 · 입장 무료',q:'오타루 오르골당 本館',m:1},{n:'사카이마치 거리',d:'기념품 · 유리공예 · 르타오 본점',q:'오타루 사카이마치 거리',m:1},{n:'삼각시장',d:'오타루역 앞 · 카이센동 · 7:00~17:00',q:'오타루 삼각시장',m:1}],
-   foods:[{n:'이세즈시',d:'미슐랭 1스타 · 오마카세 ¥10,000 이내 · 예약 권장',q:'이세즈시 いせ鮨 오타루'},{n:'마사즈시',d:'미스터 초밥왕 배경지 · 예약 권장',q:'政寿司 마사즈시 오타루'},{n:'르타오 본점',d:'이중주 치즈케이크 · 2층 바다 전망',q:'LeTAO 르타오 오타루 본점'},{n:'삿포로 맥주박물관 홀',d:'생맥주 + 징기스칸 뷔페 · 사전 예약 필수',q:'삿포로 맥주박물관 サッポロビール園'}]
-  },
-  {title:'Day 4 · 화요일',sub:'골프 + 노보리베츠 JR 당일치기 + 스프카레',
-   tMethod:'JR 특급 호쿠토 / 스즈란',tDetail:'삿포로역 → 노보리베츠역 약 1시간 14분<br>역에서 온천 마을 버스 약 15분<br>온천 후 피로 → 기차 권장',tBadge:'¥5,410/편도',
-   golf:'07:00 골프장 출발<br>14:00까지 라운딩 종료<br>이후 JR로 노보리베츠 합류',
-   spots:[{n:'지옥 계곡',d:'유황 분화구 데크 산책 30분 · 무료',q:'지옥계곡 노보리베츠 地獄谷',m:1},{n:'오유누마 족욕',d:'자연 족욕탕 · 무료 · 수건 지참',q:'오유누마 노보리베츠 족욕',m:1},{n:'사기리유 온천',d:'당일 입욕 ¥490~ · 07:00~21:00',q:'유모토 사기리유 온천 노보리베츠',m:1},{n:'다이이치 타키모토칸',d:'당일 입욕 ¥2,000 · 접수 마감 17:00',q:'다이이치 타키모토칸 노보리베츠 온천',m:1}],
-   foods:[{n:'GARAKU (저녁 스프카레)',d:'16:30 현장 QR 대기표 · 예약불가 · 현금만',q:'GARAKU 가라쿠 스프카레 삿포로'},{n:'Suage+ (스아게)',d:'구운 야채 스프카레 · 스스키노역 3분',q:'Suage 스아게 삿포로 스프카레'}]
-  },
-  {title:'Day 5 · 수요일',sub:'TW264 14:30 귀국 · 12:30 공항 집결',
-   tMethod:'11:30 호텔 출발 목표',tDetail:'공항버스 또는 JR 쾌속 에어포트<br>12:30 공항 도착 → 탑승 수속',tBadge:'TW264 14:30',
+   foods:[{n:'이세즈시 (미슐랭 1스타)',d:'오마카세 니기리 · ¥6,000~10,000 · 예약 권장',q:'이세즈시 いせ鮨 오타루'},{n:'르타오 본점 카페',d:'이중주 치즈케이크 · 2층 바다 전망',q:'LeTAO 르타오 오타루 본점'},{n:'우미 하치쿄 (저녁 이자카야)',d:'연어알 츠코메시 · 직원이 앞에서 붓는 명물',q:'우미하치쿄 삿포로 스스키노'},
+   {n:'⚠️ 맥주박물관',d:'월요일 정기 휴관 · 이번 여행 방문 불가',q:'삿포로 맥주박물관'}],
+   notice:'삿포로 맥주박물관은 월요일 정기 휴관입니다. 저녁 대안으로 우미 하치쿄(연어알 이자카야)를 강력 추천해요!'},
+  {title:'Day 4 · 화요일',sub:'니돔 클래식 골프 · 삿포로/노보리베츠 추천 장소 & 식당',
+   tMethod:'JR 특급 호쿠토 / 스즈란 (노보리베츠)',tDetail:'삿포로역 → 노보리베츠역 약 1시간 14분<br>역에서 온천 마을 버스 약 15분<br>온천 후 피로 → 기차 권장',tBadge:'¥5,410/편도',
+   golf:{name:'니돔 클래식 (NIDOM CLASSIC)',loc:'도마코마이시 · 공항에서 약 15분',info:'45홀 · 구릉지 · 숲과 연못의 자연 코스<br>니스파 코스(챔피언십) + 이코로 코스<br>아이누어로 "풍요로운 숲" · 한국인 스태프 상주',tags:['45홀','공항 15분','한국인 스태프','구글 4.0점'],q:'ニドムクラシックコース 도마코마이'},
+   spots:[{n:'삿포로 맥주박물관',d:'자유관람 무료 · 스타홀 3종 시음 ¥1,000 · 화요일 투어 없음',q:'삿포로 맥주박물관 サッポロビール園',m:1},{n:'삿포로 비어가든',d:'징기스칸 뷔페 + 생맥주 · 맥주박물관 바로 옆',q:'삿포로 비어가든 サッポロビール園',m:1},{n:'오도리 공원',d:'삿포로 TV타워 · 산책 · 여름 맥주 축제 장소',q:'오도리 공원 삿포로',m:1},{n:'지옥 계곡 (노보리베츠)',d:'유황 분화구 · 무료 · JR 특급 1시간 14분',q:'지옥계곡 노보리베츠 地獄谷',m:1},{n:'오유누마 족욕 (노보리베츠)',d:'자연 족욕탕 · 무료 · 수건 지참',q:'오유누마 노보리베츠 족욕',m:1},{n:'사기리유 온천 (노보리베츠)',d:'당일 입욕 ¥490~ · 07:00~21:00',q:'유모토 사기리유 온천 노보리베츠',m:1}],
+   foods:[{n:'GARAKU (스프카레)',d:'16:30 현장 QR 대기표 · 예약불가 · 현금만',q:'GARAKU 가라쿠 스프카레 삿포로'},{n:'Suage+ (스프카레)',d:'구운 야채 스프카레 · 스스키노역 3분',q:'Suage 스아게 삿포로 스프카레'},{n:'우미 하치쿄 (이자카야)',d:'연어알 츠코메시 · 직원이 앞에서 붓는 명물',q:'우미하치쿄 삿포로 스스키노'},{n:'다루마 (징기스칸)',d:'16:30 번호표 → 17:00 입장 · 현금만',q:'다루마 징기스칸 스스키노'}]},
+  {title:'Day 5 · 수요일',sub:'자유시간 · 렌트카 반납 · TW264 14:30 귀국',
+   tMethod:'렌트카로 공항 이동 후 반납',tDetail:'11:30 호텔 출발 → 렌트카 공항 반납<br>12:30 공항 집결 · 탑승 수속<br>TW264 14:30 신치토세 출발',tBadge:'TW264 14:30',
    golf:null,
    spots:[{n:'시로이 코이비토 파크',d:'입장 ¥600 · 주차 무료 · 공항 방향',q:'시로이코이비토파크 삿포로',m:1},{n:'홋카이도 신궁',d:'마루야마 공원 옆 · 조용한 산책',q:'홋카이도 신궁 삿포로',m:1},{n:'삿포로역 스텔라플레이스',d:'기념품 · 로이즈 · 마루세이 버터샌드',q:'삿포로역 스텔라플레이스',m:1}],
-   foods:[{n:'네무로 하나마루 (점심)',d:'JR타워 6F · 11시 오픈런 추천',q:'네무로 하나마루 삿포로'},{n:'모리히코 카페 (아침)',d:'마지막 여유로운 아침 커피',q:'모리히코 MORIHICO 삿포로'}]
-  }
+   foods:[{n:'네무로 하나마루 (점심)',d:'JR타워 6F · 11시 오픈런 추천',q:'네무로 하나마루 삿포로'},{n:'라멘 신겐 (콘버터라멘)',d:'삿포로 3대 라멘 · 귀국 전 마지막 한 그릇',q:'ラーメン信玄 삿포로 스스키노'},{n:'모리히코 카페 (아침)',d:'마지막 여유로운 아침 커피',q:'모리히코 MORIHICO 삿포로'}]}
 ];
 
-var FL0='<div class="fl-card"><div class="fl-airline">티웨이항공 TW263 출국</div><div class="fl-row"><div class="fl-city"><div class="fl-code">ICN</div><div class="fl-time">10:20</div><div class="fl-name">인천</div></div><div class="fl-mid"><div class="fl-dur">2시간 50분</div><div class="fl-bar"></div></div><div class="fl-city"><div class="fl-code">CTS</div><div class="fl-time">13:10</div><div class="fl-name">신치토세</div></div></div></div>';
-var FL5='<div class="fl-card"><div class="fl-airline">티웨이항공 TW264 귀국</div><div class="fl-row"><div class="fl-city"><div class="fl-code">CTS</div><div class="fl-time">14:30</div><div class="fl-name">신치토세</div></div><div class="fl-mid"><div class="fl-dur">2시간 10분</div><div class="fl-bar"></div></div><div class="fl-city"><div class="fl-code">ICN</div><div class="fl-time">17:40</div><div class="fl-name">인천</div></div></div></div>';
 
-function placeHTML(item,mint){
-  var mq='https://www.google.com/maps/search/?api=1&query='+encodeURIComponent(item.q||item.n);
-  return '<a class="pl" href="'+mq+'"><div class="pl-dot'+(mint?' mint':'')+'"></div><div class="pl-info"><div class="pl-name">'+(item.n||item.name)+'</div><div class="pl-desc">'+(item.d||item.desc)+'</div></div><div class="pl-map">지도 ›</div></a>';
+function buildSpotRow(s){
+  var mq='https://www.google.com/maps/search/?api=1&query='+encodeURIComponent(s.q);
+  return '<a class="pl" href="'+mq+'"><div class="pl-dot'+(s.m?' mint':'')+'"></div><div class="pl-main"><div class="pl-name">'+s.n+'</div><div class="pl-desc">'+s.d+'</div></div><div class="pl-map">지도 ›</div></a>';
+}
+
+function buildFoodRow(f){
+  var mq='https://www.google.com/maps/search/?api=1&query='+encodeURIComponent(f.q);
+  return '<div class="fd"><div class="fd-dot"></div><div class="fd-info"><div class="fd-name">'+f.n+'</div><div class="fd-desc">'+f.d+'</div></div><a class="fd-map" href="'+mq+'">지도 ›</a></div>';
+}
+
+function buildGolfCard(g){
+  var mq='https://www.google.com/maps/search/?api=1&query='+encodeURIComponent(g.q);
+  var tags=g.tags.map(function(t){return '<span class="gc-tag">'+t+'</span>';}).join('');
+  return '<div class="gc"><div class="gc-top"><div class="gc-lbl">부모님 골프 일정</div><a class="gc-badge" href="'+mq+'">지도 ›</a></div><div class="gc-name">'+g.name+'</div><div class="gc-text">'+g.loc+'<br>'+g.info+'</div><div class="gc-tags">'+tags+'</div></div>';
 }
 
 function openDay(n){
@@ -346,27 +364,30 @@ function openDay(n){
   if(n===0){
     titleEl.textContent='항공 정보';
     subEl.textContent='티웨이항공 TW263 / TW264';
-    h=FL0+'<div style="height:10px"></div>'+FL5;
+    h=FL0+'<div style="height:10px"></div>'+FL5+'<div class="tc" style="margin-top:10px"><div class="tc-lbl">숙박</div><div class="tc-detail">이비스 스타일 삿포로 · 4박<br>삿포로역 도보권 · 모든 이동 기점</div></div>';
   } else {
     var d=DAY_DATA[n];
     titleEl.textContent=d.title;
     subEl.textContent=d.sub;
-    if(n===1||n===5)h+=FL0+'<div style="height:10px"></div>';
-    h+='<div class="tc"><div class="tc-lbl">교통 안내</div><div class="tc-row"><div><div class="tc-method">'+d.tMethod+'</div><div class="tc-detail">'+d.tDetail+'</div></div><div class="tc-badge">'+d.tBadge+'</div></div></div>';
-    if(d.golf)h+='<div class="gc"><div class="gc-lbl">부모님 골프 일정</div><div class="gc-text">'+d.golf+'</div></div>';
+    if(n===1)h+=FL0+'<div style="height:10px"></div>';
+    if(d.golf)h+=buildGolfCard(d.golf);
     if(d.spots&&d.spots.length){
       h+='<div class="rec"><div class="rec-ttl">추천 관광지</div>';
-      d.spots.forEach(function(s){h+=placeHTML(s,s.m);});
+      d.spots.forEach(function(s){h+=buildSpotRow(s);});
       h+='</div>';
     }
     if(d.foods&&d.foods.length){
       h+='<div class="rec"><div class="rec-ttl">추천 식당</div>';
-      d.foods.forEach(function(f){h+=placeHTML(f,0);});
+      d.foods.forEach(function(f){h+=buildFoodRow(f);});
+      if(d.notice)h+='<div class="notice-bar">'+d.notice+'</div>';
       h+='</div>';
     }
     if(n===5)h+='<div style="height:10px"></div>'+FL5;
   }
   bodyEl.innerHTML=h;
+
+
+
   showScreen('sc-day');
   document.querySelectorAll('.tb').forEach(function(b){b.classList.remove('on');});
   bodyEl.scrollTop=0;
@@ -375,8 +396,8 @@ function openDay(n){
 var RESTS={
   sapporo:{name:'삿포로 시내',cats:{
     curry:{name:'스프카레',items:[
-      {name:'GARAKU',menu:'닭튀김 스프카레',price:'¥1,500~2,000',hours:'11:30~21:00',note:'예약불가 · 현금만 · 오픈런',badge:'예약불가',bt:'warn',q:'GARAKU 가라쿠 스프카레 삿포로'},
-      {name:'Suage+',menu:'구운 야채 스프카레',price:'¥1,200~1,800',hours:'11:30~21:30',note:'한국인 평점 높음',badge:'현장 대기',bt:'need',q:'Suage 스아게 삿포로 스프카레'},
+      {name:'GARAKU',menu:'닭튀김 스프카레',price:'¥1,500~2,000',hours:'11:30~21:00',note:'예약불가 · 현금만 · 오픈런 필수',badge:'예약불가',bt:'warn',q:'GARAKU 가라쿠 스프카레 삿포로'},
+      {name:'Suage+',menu:'구운 야채 스프카레',price:'¥1,200~1,800',hours:'11:30~21:30',note:'한국인 평점 높음 · 스스키노역 3분',badge:'현장 대기',bt:'need',q:'Suage 스아게 삿포로 스프카레'},
       {name:'Magic Spice',menu:'오리지널 스프카레',price:'¥1,300~2,000',hours:'11:30~21:00',note:'일본 스프카레 발상지',badge:'현장 방문',bt:'ok',q:'Magic Spice 삿포로'}
     ]},
     cafe:{name:'카페 · 디저트',items:[
@@ -385,17 +406,18 @@ var RESTS={
       {name:'동구리 베이커리',menu:'치쿠와빵 · 크림빵',price:'¥150~250',hours:'08:00~19:00',note:'오도리 공원 앞 · 가성비',badge:'현장 방문',bt:'ok',q:'どんぐり 베이커리 삿포로'}
     ]},
     genghis:{name:'징기스칸',items:[
-      {name:'다루마 5.5점',menu:'마톤 징기스칸',price:'¥2,000~3,000',hours:'17:00~03:00',note:'예약불가 · 현금만 · 번호표 16:30~',badge:'예약불가',bt:'warn',q:'다루마 징기스칸 스스키노'},
-      {name:'삿포로 맥주홀',menu:'징기스칸 뷔페 + 생맥주',price:'¥2,000~3,500',hours:'11:30~20:00',note:'사전 예약 권장',badge:'예약 권장',bt:'need',q:'삿포로 맥주박물관 サッポロビール園'}
+      {name:'다루마 5.5점',menu:'마톤 징기스칸',price:'¥2,000~3,000',hours:'17:00~03:00',note:'예약불가 · 현금만 · 번호표 16:30~',badge:'예약불가',bt:'warn',q:'다루마 징기스칸 스스키노'}
     ]},
     sushi:{name:'스시 · 해산물',items:[
       {name:'네무로 하나마루',menu:'성게·연어·관자 초밥',price:'¥1,500~3,000',hours:'11:00~22:00',note:'오픈 직후 방문 · JR타워 6F',badge:'웨이팅 필수',bt:'warn',q:'네무로하나마루 삿포로'},
       {name:'카니혼케',menu:'홋카이도 게 코스 요리',price:'¥5,000~15,000',hours:'11:00~22:00',note:'예약 권장',badge:'예약 권장',bt:'need',q:'카니혼케 삿포로'},
-      {name:'우미 하치쿄',menu:'연어알 츠코메시',price:'¥2,000~4,000',hours:'17:00~23:00',note:'직원이 앞에서 알 부어주는 명물',badge:'현장 방문',bt:'ok',q:'우미하치쿄 삿포로 스스키노'}
+      {name:'우미 하치쿄',menu:'연어알 츠코메시',price:'¥2,000~4,000',hours:'17:00~23:00',note:'직원이 앞에서 연어알 붓는 명물',badge:'현장 방문',bt:'ok',q:'우미하치쿄 삿포로 스스키노'}
     ]},
     ramen:{name:'소바 · 라멘',items:[
-      {name:'라멘 요코초',menu:'삿포로 미소라멘',price:'¥900~1,200',hours:'11:00~03:00',note:'1960년대 라멘 골목',badge:'현장 방문',bt:'ok',q:'라멘요코초 삿포로 스스키노'},
-      {name:'麺屋 彩未',menu:'미소라멘',price:'¥1,000~1,500',hours:'11:00~15:00',note:'일본 최고 라멘 · 오픈런 필수',badge:'웨이팅 필수',bt:'warn',q:'麺屋彩未 삿포로'}
+      {name:'라멘 신겐 (信玄)',menu:'콘버터 미소라멘',price:'¥1,000~1,400',hours:'11:00~01:00',note:'삿포로 3대 라멘 · 극악 웨이팅 · 오전 방문 추천',badge:'웨이팅 필수',bt:'warn',q:'ラーメン信玄 삿포로 스스키노'},
+      {name:'테시카가라멘 (弟子屈)',menu:'콘버터 미소라멘',price:'¥900~1,300',hours:'11:00~02:00',note:'라멘 요코초 내 · 콘버터 시그니처 · 웨이팅 비교적 짧음',badge:'현장 방문',bt:'ok',q:'弟子屈ラーメン 삿포로 스스키노'},
+      {name:'라멘 요코초',menu:'삿포로 미소라멘 · 콘버터 추가 가능',price:'¥900~1,200',hours:'11:00~03:00',note:'1960년대 라멘 골목 · 여러 가게 중 선택',badge:'현장 방문',bt:'ok',q:'라멘요코초 삿포로 스스키노'},
+      {name:'麺屋 彩未',menu:'미소라멘',price:'¥1,000~1,500',hours:'11:00~15:00',note:'일본 최고 라멘으로 꼽힘 · 오픈런 필수',badge:'웨이팅 필수',bt:'warn',q:'麺屋彩未 삿포로'}
     ]}
   }},
   otaru:{name:'오타루',cats:{
@@ -417,7 +439,7 @@ var RESTS={
       {name:'비에이 소프트아이스크림',menu:'홋카이도 우유 소프트',price:'¥400~600',hours:'09:00~18:00',note:'드라이브 도중 필수',badge:'현장 방문',bt:'ok',q:'비에이 소프트아이스크림'},
       {name:'Cafe de La Paix',menu:'홋카이도 재료 파스타',price:'¥1,200~2,000',hours:'11:00~16:00',note:'비정기 휴무 주의',badge:'현장 방문',bt:'ok',q:'Cafe de La Paix 비에이'}
     ]},
-    local:{name:'정식 · 라멘',items:[
+    local:{name:'정식 · 카레',items:[
       {name:'준페이',menu:'해산물 카레·덮밥',price:'¥1,000~1,500',hours:'11:00~14:00',note:'현지 인기 · 소량 매진',badge:'현장 방문',bt:'need',q:'じゅんぺい 비에이'}
     ]}
   }},
@@ -430,15 +452,13 @@ var RESTS={
 };
 
 var curR='sapporo',curC=null;
-
 function renderRegionRow(){
   var row=document.getElementById('region-row');
   if(row.children.length>0)return;
   [{k:'sapporo',n:'삿포로 시내'},{k:'otaru',n:'오타루'},{k:'biei',n:'비에이'},{k:'noboribetsu',n:'노보리베츠'}].forEach(function(r){
     var el=document.createElement('div');
     el.className='rchip'+(r.k===curR?' on':'');
-    el.textContent=r.n;
-    el.dataset.key=r.k;
+    el.textContent=r.n;el.dataset.key=r.k;
     row.appendChild(el);
   });
   renderCats(curR);
@@ -453,7 +473,6 @@ function renderRegionRow(){
     document.getElementById('rest-list').innerHTML='';
   });
 }
-
 function renderCats(r){
   var grid=document.getElementById('cat-grid');
   grid.innerHTML='';
@@ -476,7 +495,6 @@ function renderCats(r){
   });
   if(curC&&cats[curC])renderList(r,curC);
 }
-
 function renderList(r,c){
   var items=RESTS[r].cats[c].items;
   var lbl=document.getElementById('rest-lbl');
@@ -498,12 +516,12 @@ function buildParkList(){
   var list=document.getElementById('park-list');
   if(list.children.length>0)return;
   var parks=[
-    {icon:'🏡',name:'오타루 운하 · 오르골당 · 삼각시장',sub:'JR 추천 · 코인파킹 이용 가능',rows:[{b:'교통',t:'JR 쾌속 에어포트 삿포로역 → 오타루역 약 35분 <span class="ptag free">¥750</span><br>8월 성수기 도로 혼잡 → JR 추천'},{b:'주차',t:'코인파킹 <span class="ptag paid">¥600~800/12h</span> · 항구 정액 <span class="ptag paid">¥800/일</span>'},{b:'입장료',t:'운하 산책 <span class="ptag free">무료</span> · 오르골당 <span class="ptag free">무료</span> · 크루즈 <span class="ptag paid">¥1,800</span>'}]},
-    {icon:'🌾',name:'비에이 · 패치워크&파노라마 로드',sub:'렌트카 필수 · 현지 주차 무료',rows:[{b:'교통',t:'렌트카 <span class="ptag paid">필수</span> — 삿포로 → 비에이 약 2시간 30분'},{b:'주차',t:'각 포토 스팟 <span class="ptag free">무료</span> · 사계채의 언덕 <span class="ptag free">무료</span>'},{b:'입장료',t:'사계채의 언덕 <span class="ptag paid">¥500</span> · 버기 <span class="ptag paid">+¥500</span> · 청의 연못 <span class="ptag free">무료</span>'},{b:'맵코드',t:'비에이역 349 079 798 · 사계채 349 036 065 · 청의 연못 796 182 764'}]},
-    {icon:'🍺',name:'삿포로 맥주박물관',sub:'가든파크 전용 주차장',rows:[{b:'주차',t:'가든파크 전용 <span class="ptag chk">유료 (현장 확인)</span>'},{b:'입장료',t:'박물관 견학 <span class="ptag free">무료</span> · 프리미엄 투어 <span class="ptag paid">¥600</span><br>맥주홀 뷔페 ¥2,000~3,500 + 음료 별도'}]},
-    {icon:'🌋',name:'노보리베츠 지옥계곡 · 온천',sub:'JR 특급 추천 · 맵코드 603 315 414',rows:[{b:'교통',t:'JR 특급 호쿠토/스즈란 <span class="ptag free">¥5,410</span> 약 1시간 14분<br>고속버스(도난버스) <span class="ptag free">¥2,500</span> 약 1시간 50분'},{b:'주차',t:'지옥 계곡 전용 <span class="ptag paid">¥500/24h</span> · 오유누마 <span class="ptag free">무료</span>'},{b:'입장료',t:'지옥 계곡 <span class="ptag free">무료</span> · 족욕 <span class="ptag free">무료</span><br>사기리유 <span class="ptag paid">¥490~700</span> · 타키모토칸 <span class="ptag paid">¥2,000</span>'}]},
-    {icon:'🍪',name:'시로이 코이비토 파크',sub:'무료 주차 · 공항 방향',rows:[{b:'주차',t:'전용 주차장 <span class="ptag free">무료</span>'},{b:'입장료',t:'유료 구역 <span class="ptag paid">¥600</span> · 정원·쇼핑 <span class="ptag free">무료</span>'}]},
-    {icon:'⛳',name:'골프장 (삿포로 근교)',sub:'GDO / Rakuten Golf 사전 예약',rows:[{b:'주차',t:'골프장 전용 <span class="ptag free">무료</span>'},{b:'비용',t:'그린피+카트+캐디피 <span class="ptag paid">¥12,000~20,000/인</span>'}]}
+    {icon:'🚗',name:'렌트카 공항 수령 / 반납',sub:'Day 1 수령 · Day 5 반납',rows:[{b:'수령 (Day 1)',t:'신치토세 공항 1층 렌트카 카운터<br>입국 후 렌트카사 카운터 방문 → 수속 → 출발'},{b:'반납 (Day 5)',t:'신치토세 공항 렌트카 반납소<br>12:30 공항 집결 목표 · 반납 후 탑승 수속'},{b:'주의',t:'국제면허증 <span class="ptag chk">필참</span> · 일본 좌측 통행<br>ETC 카드 또는 현금 고속도로비 준비'}]},
+    {icon:'🌾',name:'비에이 드라이브 (Day 2)',sub:'렌트카 · 현지 주차 무료',rows:[{b:'주차',t:'각 포토 스팟 길가 <span class="ptag free">무료</span> · 사계채의 언덕 <span class="ptag free">무료</span>'},{b:'입장료',t:'사계채의 언덕 <span class="ptag paid">¥500</span> · 버기 <span class="ptag paid">+¥500</span> · 청의 연못 <span class="ptag free">무료</span>'},{b:'맵코드',t:'비에이역 349 079 798 · 사계채 349 036 065<br>청의 연못 796 182 764 · 켄과메리의나무 349 188 841'}]},
+    {icon:'🏡',name:'오타루 (Day 3)',sub:'JR 추천 · 코인파킹 이용 가능',rows:[{b:'교통',t:'JR 쾌속 에어포트 삿포로역 → 오타루역 약 35분 <span class="ptag free">¥750</span>'},{b:'주차 (렌트카 시)',t:'코인파킹 <span class="ptag paid">¥600~800/12h</span> · 항구 정액 <span class="ptag paid">¥800/일</span>'},{b:'입장료',t:'운하 산책 <span class="ptag free">무료</span> · 오르골당 <span class="ptag free">무료</span> · 크루즈 <span class="ptag paid">¥1,800</span>'}]},
+    {icon:'🌋',name:'노보리베츠 (Day 4)',sub:'JR 특급 추천 · 도보 이동 가능',rows:[{b:'교통',t:'JR 특급 호쿠토/스즈란 <span class="ptag free">¥5,410</span> 약 1시간 14분<br>역에서 온천 마을 버스 약 15분'},{b:'입장료',t:'지옥 계곡 <span class="ptag free">무료</span> · 족욕 <span class="ptag free">무료</span><br>사기리유 <span class="ptag paid">¥490~700</span> · 타키모토칸 <span class="ptag paid">¥2,000</span>'}]},
+    {icon:'🍪',name:'시로이 코이비토 파크 (Day 5)',sub:'무료 주차 · 공항 방향',rows:[{b:'주차',t:'전용 주차장 <span class="ptag free">무료</span>'},{b:'입장료',t:'유료 구역 <span class="ptag paid">¥600</span> · 정원·쇼핑 <span class="ptag free">무료</span>'}]},
+    {icon:'⛳',name:'골프장',sub:'썬파크(Day 3) · 니돔 클래식(Day 4)',rows:[{b:'썬파크 삿포로',t:'기타히로시마시 · 공항에서 약 35분 · 27홀<br>주차 <span class="ptag free">무료</span>'},{b:'니돔 클래식',t:'도마코마이시 · 공항에서 약 15분 · 45홀<br>주차 <span class="ptag free">무료</span>'}]}
   ];
   parks.forEach(function(p){
     var el=document.createElement('div');
@@ -517,16 +535,15 @@ function buildParkList(){
     if(hd)hd.closest('.pk').classList.toggle('open');
   });
 }
-
 function buildCheckList(){
   var list=document.getElementById('ck-list');
   if(list.children.length>0)return;
   var checks=[
-    {icon:'🍺',name:'맥주박물관 홀 예약',sub:'출발 1~2주 전 필수',items:['공식 홈페이지 또는 전화 사전 예약. 단체라 예약 없으면 대기 가능.']},
-    {icon:'⛳',name:'골프장 예약 2회',sub:'GDO / Rakuten Golf',items:['GDO 또는 Rakuten Golf에서 출국 전 예약. 오전 조 티타임 요청.','국제면허증 2명분 필참.']},
-    {icon:'🚗',name:'렌트카 예약 (비에이 1일)',sub:'2일차 비에이 드라이브 1대',items:['2일차(일요일) 비에이 드라이브용 1대 예약. 나머지 날은 JR 이동.','맵코드 입력 방식 미리 숙지.']},
-    {icon:'🚆',name:'JR 티켓 구매',sub:'오타루 · 노보리베츠 이동',items:['오타루: JR 쾌속 에어포트 (¥750/편도) — 현장 발권 가능.','노보리베츠: JR 특급 호쿠토/스즈란 지정석 (¥5,410) — 사전 예약 추천.']},
-    {icon:'💴',name:'현금 준비 (엔화)',sub:'다루마 · GARAKU 현금만',items:['다루마 징기스칸 · GARAKU 스프카레 현금만 가능.','1인 1일 식비 ¥5,000~8,000 예상.']},
+    {icon:'⛳',name:'골프장 예약 2회',sub:'썬파크(Day 3) + 니돔 클래식(Day 4)',items:['썬파크 삿포로: GDO 또는 현지 예약 사이트 이용.','니돔 클래식: nidomcc.jp 또는 Rakuten GORA에서 예약. 한국인 스태프 상주.','국제면허증 2명분 필참. 오전 조 티타임 우선 요청.']},
+    {icon:'🚗',name:'렌트카 예약',sub:'공항 수령 · Day 5 공항 반납',items:['신치토세 공항 수령 가능 렌트카사 예약. 토요타 렌터카 / 닛산 렌터카 추천.','국제면허증 2명 모두 필참. ETC 카드 신청 또는 현금 준비.']},
+    {icon:'🚆',name:'JR 티켓',sub:'오타루 · 노보리베츠 이동',items:['오타루(Day 3): JR 쾌속 에어포트 ¥750/편도 — 현장 발권 가능.','노보리베츠(Day 4): JR 특급 호쿠토/스즈란 ¥5,410 지정석 — 사전 예약 권장.']},
+    {icon:'💴',name:'현금 준비 (엔화)',sub:'다루마 · GARAKU 현금만',items:['다루마 징기스칸 · GARAKU 스프카레 현금 결제만 가능.','1인 1일 식비 ¥5,000~8,000 예상. 충분히 환전 권장.']},
+    {icon:'🍺',name:'맥주박물관',sub:'월요일 정기 휴관 · 이번 여행 불가',items:['삿포로 맥주박물관은 매주 월요일 정기 휴관입니다.','Day 3(월요일) 저녁 대신 우미 하치쿄(연어알 이자카야)를 추천합니다.']},
     {icon:'☀️',name:'8월 준비물',sub:'자외선 강함 · 강수 36%',items:['선크림 · 모자 · 선글라스 필수','접이식 우산 1개/가족','족욕용 수건 (노보리베츠)','저녁 얇은 긴팔 1장']}
   ];
   checks.forEach(function(c){
@@ -546,16 +563,16 @@ document.addEventListener('DOMContentLoaded',function(){
   document.getElementById('tb-home').addEventListener('click',function(){switchTab('home');});
   document.getElementById('tb-schedule').addEventListener('click',function(){openDay(1);});
   document.getElementById('tb-rest').addEventListener('click',function(){switchTab('rest');});
-  document.getElementById('tb-park').addEventListener('click',function(){switchTab('park');buildParkList();});
-  document.getElementById('tb-check').addEventListener('click',function(){switchTab('check');buildCheckList();});
+  document.getElementById('tb-park').addEventListener('click',function(){switchTab('park');});
+  document.getElementById('tb-check').addEventListener('click',function(){switchTab('check');});
   document.getElementById('d1c').addEventListener('click',function(){openDay(1);});
   document.getElementById('d2c').addEventListener('click',function(){openDay(2);});
   document.getElementById('d3c').addEventListener('click',function(){openDay(3);});
   document.getElementById('d4c').addEventListener('click',function(){openDay(4);});
   document.getElementById('d5c').addEventListener('click',function(){openDay(5);});
   document.getElementById('btn-rest').addEventListener('click',function(){switchTab('rest');});
-  document.getElementById('btn-park').addEventListener('click',function(){switchTab('park');buildParkList();});
-  document.getElementById('btn-check').addEventListener('click',function(){switchTab('check');buildCheckList();});
+  document.getElementById('btn-park').addEventListener('click',function(){switchTab('park');});
+  document.getElementById('btn-check').addEventListener('click',function(){switchTab('check');});
   document.getElementById('btn-flight').addEventListener('click',function(){openDay(0);});
   document.getElementById('back-btn').addEventListener('click',function(){
     showScreen('sc-home');
